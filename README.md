@@ -2,9 +2,8 @@
 Bash tools/scripts helpful to have in your Linux environment.
 
 ### Usage 
-1. `[your git dir] $ git clone [this repo]`.
-2. ln -s [any script from this repo] ~/bin.
-4. Ensure ~bin is in your env's $PATH.
+1. ln -s [any script cloned/forked from this repo] ~/bin
+2. Ensure ~bin is in your env's $PATH
 
 ### Contents
 
@@ -12,11 +11,11 @@ Bash tools/scripts helpful to have in your Linux environment.
 
 A quick finder script. Finds a file quickly, or finds something within a given filetype. Uses find, xargs, egrep.
 
-`f ip '(todo|fixme)'` Find either tag inside a 'python' filetype below '.' (disregarding case by default).
+`$ f ip '(todo|fixme)'` Find either tag inside a 'python' filetype below '.' (disregarding case by default).
 
-`f d -c bin$` Count the number of dirs that end in 'bin'.
+`$ f d -c bin$` Count the number of dirs that end in 'bin'.
 
-`f cf -Ip run` Find a 'C' filetype containing 'run' without highlighting and disregarding case.
+`$ f cf -Ip run` Find a 'C' filetype containing 'run' without highlighting and disregarding case.
 
 ####$ eq -- (Eq)uals -- shell
 
@@ -77,4 +76,4 @@ List the contents of a directory broken into all/dirs/files/links/sizes, differe
 `$ lc ../bin` List contents of given directory.
 
 ### Notes
-* Each file has its own helpfile, generally accessible with `$ [cmd] -h` or `bin-tools $ head [cmd]`.
+* Each file has its own helpfile, generally accessible with `bin-tools $ head [cmd]` or `$ [cmd] -h`.

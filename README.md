@@ -2,7 +2,7 @@
 Bash tools/scripts helpful to have in your Linux environment.
 
 ### Usage 
-1. ln -s [any script cloned/forked from this repo] ~/bin
+1. `$ ln -s [any script cloned/forked from this repo] ~/bin`
 2. Ensure ~bin is in your env's $PATH
 
 ### Contents

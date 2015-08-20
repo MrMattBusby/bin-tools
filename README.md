@@ -75,5 +75,11 @@ List the contents of a directory broken into all/dirs/files/links/sizes, differe
 
 `$ lc ../bin` List contents of given directory.
 
+####setcolors -- (Set colors) -- shell
+
+Exports names for environment color definitions, sourced from .bashrc. Uses nothing.
+
+`$ source setcolors` Set terminal colors utilized in .bashrc.
+
 ### Notes
 * Each file has its own helpfile, generally accessible with `bin-tools $ head [cmd]` or `$ [cmd] -h`.

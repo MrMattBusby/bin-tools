@@ -3,6 +3,7 @@ Bash tools/scripts helpful to have in your Linux environment.
 
 ### Usage 
 1. `$ ln -s [any script cloned/forked from this repo] ~/bin`
+  - E.g. $ for each in $(find [path to bin-tools] -maxdepth 1 -type f -executable) ; do ln -sf "$each" ; done
 2. Ensure ~bin is in your env's $PATH
 
 ### Contents

@@ -76,6 +76,18 @@ List the contents of a directory broken into all/dirs/files/links/sizes, differe
 
 `$ lc ../bin` List contents of given directory.
 
+####newest -- (Newest) files -- shell
+
+Find newly modified files.
+
+`$ newest` List newest files
+
+####mktags -- (M)a(k) (tags) file -- shell
+
+Create tags file using exuberant ctags and cscope.
+
+`$ mktags` Make the tags and cscope file
+
 ####setcolors -- (Set colors) -- shell
 
 Exports names for environment color definitions, sourced from .bashrc. Uses nothing.

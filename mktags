@@ -1,6 +1,7 @@
 #!/bin/env sh
-# Create tags file using exuberant ctags for vim.
-# In vim link to tag file via :set tags=./tags, then do <C-LeftMouse>, g-], etc, :h tags.
+# Create tags file using exuberant ctags and cscope.
+# In vim link to tag file via :set tags=./tags, then do <C-LeftMouse>, g-],
+# etc, :h tags.
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.

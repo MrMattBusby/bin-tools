@@ -1,5 +1,6 @@
-#!/bin/bash
-# Swap two filenames, fast method, few temp files, confirmation.
+#!/bin/env sh
+# Create tags file using exuberant ctags for vim.
+# In vim link to tag file via :set tags=./tags, then do <C-LeftMouse>, g-], etc, :h tags.
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -33,29 +34,10 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-# Use 2 arguments
-if [ $# -ne 2 ] ; then
-	echo -e "${CMDCOL}usage:${NC} swapnames filename1 filename2!"
-  exit
-fi
-FILE1=$(dirname $1)/$(basename $1)
-FILE2=$(dirname $2)/$(basename $2)
+CMD1='ctags -R --fields=+afiksS --extra=+q &'
+CMD2='cscope -bR &'
 
-# Check file 1
-if [ ! -f $FILE1 -a ! -d $FILE1 ] ; then
-	echo -e "${CMDCOL}swapnames:${NC} file $FILE1 does not exist!"
-  exit
-fi
-
-# Check file 2
-if [ ! -f $FILE2 -a ! -d $FILE2 ] ; then
-	echo -e "${CMDCOL}swapnames:${NC} file $FILE2 does not exist!"
-  exit
-fi
-
-# Using a temp name w/o copies, swap file names and print confirmation
-mv $FILE1 $FILE1.$$ && \
-mv $FILE2 $FILE1 && \
-mv $FILE1.$$ $FILE2 && \
-echo -e "${CMDCOL}swapnames:${NC} swapped filenames \"$FILE1\" with \"$FILE2\"." || \
-echo -e "${CMDCOL}swapnames:${NC} failed!"
+echo $CMD1
+(eval $CMD1)
+echo $CMD2
+(eval $CMD2)

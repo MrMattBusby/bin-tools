@@ -2,8 +2,8 @@
 #
 # (eq)uals: Use python to evaluate your input (mainly for math functions, but...)
 #
-# TODO:
-#   Follow your bash-script template including help, etc
+# Warning: 
+#   Unsafe for widespread useage.
 #
 # Usage: 
 #   $ eq 4.+8/2                               # Simple functions w/o spaces or ()s don't need quotes
@@ -11,7 +11,7 @@
 #   $ eq "(wait(2), isodd(3)))[1]"            # Multiple functions, tuples
 #   $ eq "os.system('ls ..')"                 # Do things you probably shouldn't
 # 
-#   Copyright (c) 2014-2015, Matt Busby <busby.gator@gmail.com>.
+#   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,7 @@
 
 /usr/bin/env python -c "\
 from __future__ import print_function, division
+from math import *
 import imp
 try:
   imp.load_source('pythonrc','$HOME/.pythonrc')

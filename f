@@ -1,7 +1,7 @@
 #!/bin/bash
 # Find files or search within them.
 # 
-#   Copyright (c) 2014-2015, Matt Busby @MrMattBusby.
+#   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-USAGE='f COMMAND OPTIONS GREP_OPTIONS PATTERN-1 PATTERN-2'
+USAGE='f COMMAND [OPTIONS] [GREP_OPTIONS] Arg1 [Arg2]'
 
 HELP='Find files or search within them.
 
@@ -41,29 +41,32 @@ HELP='Find files or search within them.
 Search for PATTERN(s) with COMMAND method below.
 
   \033[1mCOMMAND:\033[0m
+
+  All commands operate on current directory `./`.
+
     \033[1m1-PATTERN:\033[0m
-       d     Find any (d)irectory below .
-       f     Find any (f)ile below .
-      af     Find (a)da (f)ile below .
-      cf     Find a (c) (f)ile below .
-      pf     Find a (p)ython (f)ile below .
-      i      Find (i)n any file below .
-      ia     Find (i)n any (a)da file below .
-      ic     Find (i)n any (c) file below .
-      ip     Find (i)n any (p)ython file below .
+       d    Find                     (d)irectory $Arg1
+       f    Find                     (f)ile      $Arg1
+      af    Find            (a)da    (f)ile      $Arg1
+      cf    Find            (c)      (f)ile      $Arg1
+      pf    Find            (p)ython (f)ile      $Arg1
+      i     Find $Arg1 (i)n any      file
+      ia    Find $Arg1 (i)n (a)da    file
+      ic    Find $Arg1 (i)n (c)      file
+      ip    Find $Arg1 (i)n (p)ython file
 
     \033[1m2-PATTERN:\033[0m
-      if     Find (i)n any (f)ile below .
-      iaf    Find (i)n (a)da file below .
-      icf    Find (i)n (c) file below .
-      ipf    Find (i)n (p)ython file below .
+      if    Find $Arg1 (i)n          (f)ile      $Arg2
+      iaf   Find $Arg1 (i)n (a)da    (f)ile      $Arg2
+      icf   Find $Arg1 (i)n (c)      (f)ile      $Arg2
+      ipf   Find $Arg1 (i)n (p)ython (f)ile      $Arg2
   
   \033[1mOPTIONS:\033[0m
     -I     Str(I)ct case (ignorecase is the default)
+    -p      Print (p)lainly without highlighting
     -P     (P)rint the command that would run
-    -p     Print (p)lainly without highlighting
-    -n     Search for notes within filetypes, used with 1-PATTERN i* cmds
-             When used no PATTERNs are necessary
+    -n      Search for notes within filetypes, used with 1-PATTERN i* cmds,
+              no PATTERNs are necessary
   
   \033[1mGREP_OPTIONS:\033[0m
     - See `egrep --help`
@@ -119,7 +122,7 @@ Search for PATTERN(s) with COMMAND method below.
 
 # Help
 if [ "$1" == '-h' -o "$1" == '--help' -o "$2" == '-h' -o "$2" == '--help' ] ; then
-  echo -e "$HELP" #| less -rN
+  echo -e "$HELP" # | less -r #N
   exit 0
 fi
 if [ "$#" -le 1 ] ; then
@@ -141,7 +144,7 @@ if [ ! -v F_AFILE_RE ] ; then
   F_AFILE_RE='.*/(makefile|.*\.(nmk|gnatmake|cfg|tab|gpr|ali|adb|ads))$'
 fi
 if [ ! -v F_NOTES_RE ] ; then
-  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|<bug>|\<review\>|\<kludg|\<klug|\<recheck\>|\<omg|\<wtf|\<seriously\>|\<dumb\>|\<stupid\>|\<idiot|\<fuck|t work|why [wd])'
+  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<wtf|\<seriously\>|\<dumb|\<stupid|\<idiot|\<dick\>|\<penis\>|\<fuck|\<cunt\>|t work|why [wd]|\<shit\>|\<shitty|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
 fi
 
 ICASE='-i'

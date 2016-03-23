@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-"""Replace indixes (or some symbol) using a counter via pipe.
+"""Replace indices (or some symbol) using a counter via pipe.
 
 COPYRIGHT:
 - See __copyright__ below.
@@ -107,7 +107,12 @@ def parse_argv():
 def inc():
     """Index incrementer."""
     rstr = None
+    slice_ = None
+    start = None
+    step = None
+    stop = None
     # Find start, stop, step
+    try:
     ranges = [int(each) if each else None for each in \
             OPT.get('slice').split(':')]
     if len(ranges) == 1:
@@ -120,6 +125,9 @@ def inc():
             ((step > 0)*2-1)
     logging.debug((start, stop, step))
     ridx = start
+    except (ValueError):  # Use entire string as replacement string
+        ridx = OPT.get('slice')
+        logging.debug(ridx)
     # Parse each line
     for line in sys.stdin:
         # Determine replacement string
@@ -148,6 +156,7 @@ def inc():
             idx = line.rfind(rstr)
             sys.stdout.write(line[:idx] + line[idx:].replace(rstr, str(ridx)))
             sys.stdout.flush()
+            if step is not None and stop is not None:
             if abs(ridx + step) < abs(stop):
                 ridx += step
         else:

@@ -1,8 +1,8 @@
 #!/bin/bash
 # Concatenate multiple files and print a header with file stats,
-# can use via pipe with stdin.
+# or use via pipe with stdin.
 # 
-#   Copyright (c) 2014-2015, Matt Busby @MrMattBusby.
+#   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,8 @@ if [ $# -eq 0 ]; then
   echo " base   :" $(basename $FILE)
   echo " file   :" $(file -b $FILE)
   echo " ls     :" $(ls -lhq $FILE)
+  echo " lsattr : N/a"
+  echo " du     : N/a"
   echo " wc     :" $(echo "$CATS"|wc)
   echo " sum    :" $(echo "$CATS"|sum)
   echo " md5sum :" $(echo "$CATS"|md5sum)
@@ -58,7 +60,7 @@ else
       echo -en "${NC}"
       echo -e $SPACER1
       echo " name   :" $(readlink -fq $FILE)
-      #echo " base   :" $(basename $FILE)
+      echo " base   :" $(basename $FILE)
       echo " file   :" $(file -b $FILE)
       echo " ls     :" $(ls -lhq $FILE|sed "s|\s*$FILE||")
       echo " lsattr :" $(lsattr -v $FILE 2>/dev/null|sed "s|\s*$FILE||")
@@ -69,6 +71,9 @@ else
       echo $SPACER2
       echo -en "${NC}"
       cat $FILE
+    elif [ -d $FILE ]; then
+      echo -e "${CMDCOL}>>> cats: ${BRED}^xx^${CMDCOL} error: Cannot concatenate the directory \"$FILE\"!"
+      echo -en "${NC}"
     else
       echo -e "${CMDCOL}>>> cats: ${BRED}^xx^${CMDCOL} error: File \"$FILE\" cannot be concatenated!"
       echo -en "${NC}"

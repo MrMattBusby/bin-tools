@@ -21,7 +21,7 @@ from __future__ import print_function, with_statement
 __creator__ = "Matt Busby"
 __email__ = "@MrMattBusby"
 __author__ = "{0} {1}".format(__creator__, __email__)
-__date__ = "15 June, 2015"
+__date__ = "2015-2016"
 __copyright__ = "Copyright (c) {year}, {owner}. All rights reserved.".format(\
         year=__date__.replace(',', '').split()[-1], owner=__creator__)
 __licence__ = """\

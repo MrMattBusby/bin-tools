@@ -26,8 +26,6 @@ Evaluate input using python (meant for math functions). Uses python, and anythin
 
 `$ eq 'sin(pi/2.)'` Perform complex math.
 
-`$ eq 'import os;os.system("sudo su -")'` Do other stuff you shouldn't but could.
-
 ####inc -- (Inc)rementer -- python
 
 Replace placeholder indices using a python-style incrementer. Uses python builtins.

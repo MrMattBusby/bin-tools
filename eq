@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# (eq)uals: Use python to evaluate your input (mainly for math functions, but...)
+# (eq)uals: Use python to evaluate your input (mainly for math functions)
 #
 # Warning: 
 #   Unsafe for widespread useage.
 #
 # Usage: 
 #   $ eq 4.+8/2                               # Simple functions w/o spaces or ()s don't need quotes
-#   $ eq "count(4, 8) * sin(pi/2.) * FT_TO_M" # Can use math, pyutils, and consts directly
-#   $ eq "(wait(2), isodd(3)))[1]"            # Multiple functions, tuples
-#   $ eq "os.system('ls ..')"                 # Do things you probably shouldn't
+#   $ eq 'count(4, 8) * sin(pi/2.) * FT_TO_M' # Can use math, pyutils, and consts directly
+#   $ eq '(wait(2), isodd(3)))[1]'            # Multiple functions, tuples
+#   $ eq 'os.system("ls ..")'                 # Do things you probably shouldn't
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -45,10 +45,12 @@
 
 /usr/bin/env python -c "\
 from __future__ import print_function, division
+import sys, os, math
 from math import *
 import imp
+instr = '''""$@""'''
 try:
-  imp.load_source('pythonrc','$HOME/.pythonrc')
+  imp.load_source('pythonrc','""${HOME}""/.pythonrc')
   try:
     from pythonrc import *
   except: 
@@ -57,11 +59,12 @@ except:
   print('>>> eq: error loading ~/.pythonrc!')
 del imp
 try:
+  import consts
   from consts import *
 except: 
   print('>>> eq: error importing consts!')
 try:
-  print(eval(compile('''$@''', '<string>', 'eval')))
+  print(eval(compile(instr, '<string>', 'eval')))
 except: 
-  print('>>> eq: error executing eval on compiled input string!')
+  print('>>> eq: error executing eval on compiled input string: \"' + instr + '\"')
 "

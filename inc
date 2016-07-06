@@ -22,8 +22,8 @@ __creator__ = "Matt Busby"
 __email__ = "@MrMattBusby"
 __author__ = "{0} {1}".format(__creator__, __email__)
 __date__ = "20 May, 2015"
-__copyright__ = "Copyright (c) {year}, {owner}. All rights reserved.".format(\
-        year=__date__.replace(',', '').split()[-1], owner=__creator__)
+__copyright__ = "Copyright (c) {year}, {owner}. All rights reserved.".format(
+    year=__date__.replace(',', '').split()[-1], owner=__creator__)
 __licence__ = """\
         {copyright}
 
@@ -83,11 +83,13 @@ OPT = None  # Options populated below
 
 ######################## FUNCTIONS ############################################
 #
+
+
 def parse_argv():
     "Parse input arguments."""
     options = {}
     get_parser = argv_parser.ArgumentParser if USE_ARG \
-            else argv_parser.OptionParser
+        else argv_parser.OptionParser
     parser = get_parser()
     add_arg = parser.add_argument if USE_ARG else parser.add_option
     add_arg('-d', '--debug', action='store_true',
@@ -104,6 +106,7 @@ def parse_argv():
     options['debug'] = opts.debug
     return options
 
+
 def inc():
     """Index incrementer."""
     rstr = None
@@ -113,18 +116,18 @@ def inc():
     stop = None
     # Find start, stop, step
     try:
-    ranges = [int(each) if each else None for each in \
-            OPT.get('slice').split(':')]
-    if len(ranges) == 1:
-        ranges = ranges + [None]*2  # Default slice is stop, we need it start
-    logging.debug(ranges)
-    slice_ = slice(*ranges)
-    start = slice_.start if slice_.start is not None else 0
-    step = slice_.step if slice_.step is not None else 1
-    stop = slice_.stop if slice_.stop is not None else float('inf') * \
-            ((step > 0)*2-1)
-    logging.debug((start, stop, step))
-    ridx = start
+        ranges = [int(each) if each else None for each in
+                  OPT.get('slice').split(':')]
+        if len(ranges) == 1:
+            ranges = ranges + [None] * 2  # Default slice is stop, we need it start
+        logging.debug(ranges)
+        slice_ = slice(*ranges)
+        start = slice_.start if slice_.start is not None else 0
+        step = slice_.step if slice_.step is not None else 1
+        stop = slice_.stop if slice_.stop is not None else float('inf') * \
+            ((step > 0) * 2 - 1)
+        logging.debug((start, stop, step))
+        ridx = start
     except (ValueError):  # Use entire string as replacement string
         ridx = OPT.get('slice')
         logging.debug(ridx)
@@ -157,8 +160,8 @@ def inc():
             sys.stdout.write(line[:idx] + line[idx:].replace(rstr, str(ridx)))
             sys.stdout.flush()
             if step is not None and stop is not None:
-            if abs(ridx + step) < abs(stop):
-                ridx += step
+                if abs(ridx + step) < abs(stop):
+                    ridx += step
         else:
             # Otherwise simply print the line
             sys.stdout.write(line)
@@ -172,6 +175,7 @@ if __name__ == '__main__':
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.WARN)
+
     def print_import_errors():
         """Print any import issues."""
         for each in IMPORT_ERRORS:

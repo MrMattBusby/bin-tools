@@ -144,7 +144,8 @@ if [ ! -v F_AFILE_RE ] ; then
   F_AFILE_RE='.*/(makefile|.*\.(nmk|gnatmake|cfg|tab|gpr|ali|adb|ads))$'
 fi
 if [ ! -v F_NOTES_RE ] ; then
-  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<wtf|\<seriously\>|\<dumb|\<stupid|\<idiot|\<dick\>|\<penis\>|\<fuck|\<cunt\>|t work|why [wd]|\<shit\>|\<shitty|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
+  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<wtf\>|\<wth\>|\<hell\>|\<seriously\>|\<dumb|\<stupid|\<idiot|\<dick\>|\<penis\>|\<fuck|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|t work|why [wd]|\<shit\>|\<shitty|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
+  #F_NOTES_RE='(\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<penis\>|\<fuck|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<shitty)' # Bad only
 fi
 
 ICASE='-i'

@@ -244,26 +244,6 @@ def latlon(pos):
 
     return sign*deg
 
-def _debug():
-    """Debug this file."""
-    outs = []
-    print(">>> pyutils: Begin debugging...")
-
-    def dout(string):
-        outs.append(">>> pyutils: {0}".format(string))
-
-    def pout(string):
-        outs.append("{0}".format(string))
-
-    # All test code here ------V
-    
-    # Test conv_pos
-    conv_pos('87.51', 's33.31')
-
-    # All test code here ------^
-    print('\n'.join(outs))
-    print(">>> pyutils: Debugging complete. Exiting...")
-
 latlon.__doc__ == __doc__
 
 if __name__ == '__main__':

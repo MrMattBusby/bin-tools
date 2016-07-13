@@ -1,0 +1,97 @@
+#!/bin/bash
+# Backup current distro essentials
+#
+#   Copyright (c) 2015-2016, Matt Busby @MrMattBusby.
+#   All rights reserved.
+#
+#   Redistribution and use in source and binary forms, with or without
+#   modification, are permitted provided that the following conditions
+#   are met:
+#   
+#   1. Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#   
+#   2. Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in
+#      the documentation and/or other materials provided with the
+#      distribution.
+#   
+#   3. Neither the name of the copyright holder nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#   
+#   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+#   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+#   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+#   FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+#   COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+#   INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#   BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+#   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+#   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+#   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+#   POSSIBILITY OF SUCH DAMAGE.
+
+pushd ~
+
+BNAME="bu$(date +%s)"
+
+# Make a backup directory or use current
+mkdir "$BNAME"
+
+# Copy files/folders
+STUFF=(
+"/var/log/yum*"
+"/etc/hosts"
+"/etc/group"
+"./code"
+"./.bashrc"
+"./.vimrc"
+"./.pythonrc"
+"./.pip/pip.log"
+)
+
+for each in "${STUFF[@]}" ; do
+  sudo cp -rfL "$each" "$BNAME"
+done
+
+# Save YUM list
+yumdb search reason user > ~/"$BNAME"/yumdb.txt
+
+# Save python PIP list
+pip freeze > ./"$BNAME"/pip_freeze.txt
+
+# Save python pxg list
+\ls /usr/lib/python2.7/site-packages > ~/"$BNAME"/python_pxgs_ls.txt
+
+# Save Git tree
+pushd git
+
+tree -dL 4 > ~/"$BNAME"/git_treed.txt
+
+popd
+
+# Save SVN tree
+pushd svn
+
+\tree -dL 4 > ~/"$BNAME"/svn_treed.txt
+
+popd
+
+# Create tarball
+\tar -czvf "$BNAME".tgz "$BNAME"
+
+# Remove dir
+\rm -rf "$BNAME"
+
+# Copy to shared
+if [ -d /mnt/hgfs/Shared ] ; then
+	\cp "$BNAME".tgz /mnt/hgfs/Shared/
+fi
+
+# Move to tmp
+\mv "$BNAME".tgz /tmp/
+
+popd
+

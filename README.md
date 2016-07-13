@@ -78,13 +78,13 @@ List the contents of a directory broken into all/dirs/files/links/sizes, differe
 
 Find newly modified files.
 
-`$ newest` List newest files
+`$ newest` List newest files.
 
 ####mktags -- (M)a(k) (tags) file -- shell
 
 Create tags file using exuberant ctags and cscope.
 
-`$ mktags` Make the tags and cscope file
+`$ mktags` Make the tags and cscope file.
 
 ####setcolors -- (Set colors) -- shell
 
@@ -96,7 +96,19 @@ Exports names for environment color definitions, sourced from .bashrc. Uses noth
 
 Edit modified files (according to $ svn st) in VIM.
 
-`$ vm` Edit modified
+`$ vm` Edit modified.
+
+####latlon -- (Lat)itude (Lon)gitude Converter -- python
+
+Convert any lat/lon format to all other formats, including a google map link.
+
+`$ latlon +33.22n, 121332212 West` Lookup other formats.
+
+####backup -- (Backup) -- shell
+
+Backup essential logs, lists, and files.
+
+`$ backup`
 
 ### Notes
-* Each file has its own helpfile, generally accessible with `bin-tools $ head [cmd]` or `$ [cmd] -h`.
+* Many files have their own helpfile, generally accessible with `bin-tools $ head [cmd]` or `$ [cmd] -h`.

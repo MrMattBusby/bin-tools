@@ -92,5 +92,11 @@ Exports names for environment color definitions, sourced from .bashrc. Uses noth
 
 `$ source setcolors` Set terminal colors utilized in .bashrc.
 
+####vm -- (V)i (m)odified -- shell
+
+Edit modified files (according to $ svn st) in VIM.
+
+`$ vm` Edit modified
+
 ### Notes
 * Each file has its own helpfile, generally accessible with `bin-tools $ head [cmd]` or `$ [cmd] -h`.

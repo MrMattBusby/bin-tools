@@ -1,0 +1,290 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Convert wide range of lat/lon formats into all other formats and map link.
+
+COPYRIGHT:
+- See __copyright__ below.
+
+LICENSE:
+- See __license__ below.
+
+WARNING:
+- Fields MUST be comma-separated for multiple entries!
+- Do no use 's' for seconds as it will be assumed to mean 's' as in South!
+
+USAGE:
+
+  Format:
+
+    0) Degrees:
+       -87.654321         123.456789          +87.654321         West87.654321
+       87.654321w         87.654321 WEST      123 west           -12
+    1) Degrees and minutes:
+       -87d 39.25926m     87-39.25926         87deg/39.25926min  W87 39.25926
+    2) Degrees, minutes, and seconds:
+       -87d 39m 15.5556   +87-39-15.5556      87/39/15.5556w     87 39min 15 w
+    3) DAFIF (WDDDMMSSss NDDMMSSss):
+       S87391556          E123272444
+    4) Other (DDMM.mm DDDMM.mm DDMMSS.ss DDDMMSS.ss):
+       -8739.26           -873915.56          w1232724.44        12327 w
+
+  E.g.:
+
+    $ latlon +33.355n, West121443321
+"""
+from __future__ import print_function, division
+
+__creator__ = "Matt Busby"
+__email__ = "@MrMattBusby"
+__author__ = "{0} {1}".format(__creator__, __email__)
+__date__ = "2016"
+__copyright__ = "Copyright (c) {year}, {owner}. All rights reserved.".format(\
+        year=__date__.replace(',', '').split()[-1], owner=__creator__)
+__licence__ = """\
+        {copyright}
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions
+        are met:
+
+        1. Redistributions of source code must retain the above copyright
+           notice, this list of conditions and the following disclaimer.
+
+        2. Redistributions in binary form must reproduce the above copyright
+           notice, this list of conditions and the following disclaimer in
+           the documentation and/or other materials provided with the
+           distribution.
+
+        3. Neither the name of the copyright holder nor the names of its
+           contributors may be used to endorse or promote products derived
+           from this software without specific prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+        FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+        COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+        INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+        BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+        LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+        LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+        WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+        POSSIBILITY OF SUCH DAMAGE.
+        """.format(copyright=__copyright__)
+__version__ = "See git history"
+#__version__ = "4"  # Maps
+#__version__ = "3"  # Main loop
+#__version__ = "2"  # All formats
+#__version__ = "1"  # Deg, dddmmss
+
+import sys
+
+def latlon(pos):
+
+    sign = 1
+    lon = -1
+
+    # Stringify if necessary
+    try:
+        pos = pos * 1.
+        pos = str(pos)
+    except TypeError:
+        pass
+
+    # Unify string
+    pos = pos.upper().strip()
+    pos = pos.replace('+', '')
+    pos = pos.replace('WEST', 'W').replace('EAST', 'E')
+    pos = pos.replace('NORTH', 'N').replace('SOUTH', 'S')
+    pos = pos.replace('DEG', '').replace('D', '')
+    pos = pos.replace('MIN', '').replace('M', '')
+    pos = pos.replace('SEC', '')
+    pos = pos.replace('"', '').replace('\'', '')
+
+    # Parse string for direction
+    if pos[0] == '-':
+        pos = pos[1:]
+        sign = -1
+    if pos[0] == 'W':
+        pos = pos[1:]
+        sign = -1
+        lon = 1
+    elif pos[-1] == 'W':
+        pos = pos[:-1]
+        sign = -1
+        lon = 1
+    if pos[0] == 'S':
+        pos = pos[1:]
+        sign = -1
+        lon = 0
+    elif pos[-1] == 'S':
+        pos = pos[:-1]
+        sign = -1
+        lon = 0
+    if pos[0] == 'E':
+        pos = pos[1:]
+        lon = 1
+    elif pos[-1] == 'E':
+        pos = pos[:-1]
+        lon = 1
+    if pos[0] == 'N':
+        pos = pos[1:]
+        lon = 0
+    elif pos[-1] == 'N':
+        pos = pos[:-1]
+        lon = 0
+
+    # Pos now contains a list of strings with only digits or spaces
+    pos = pos.replace('-', ' ').replace('/', ' ').strip().split(' ')
+
+    # Convert format 3 -> format 2
+    if len(pos) == 1 and '.' not in pos[0] and (len(pos[0]) == 8 or
+                                                len(pos[0]) == 9):
+        if len(pos[0]) == 8:
+            pos = [pos[0][:2], pos[0][2:4], pos[0][4:6] + '.' +
+                   pos[0][6:8]]
+        elif len(pos[0]) == 9:
+            pos = [pos[0][:3], pos[0][3:5], pos[0][5:7] + '.' +
+                   pos[0][7:9]]
+        else:
+            raise
+
+    # Convert format 4 -> format 2 or 3
+    if len(pos) == 1 and len(pos[0].split('.')[0]) >= 4:
+        pos = pos[0].split('.')
+        if len(pos[0]) == 4:
+            if len(pos) == 1:
+                pos = [pos[0][:2], pos[0][2:]]
+            elif len(pos) == 2:
+                pos = [pos[0][:2], '.'.join([pos[0][2:], pos[1]])]
+            else:
+                raise
+        elif len(pos[0]) == 5:
+            if len(pos) == 1:
+                pos = [pos[0][:3], pos[0][3:]]
+            elif len(pos) == 2:
+                pos = [pos[0][:3], '.'.join([pos[0][3:], pos[1]])]
+            else:
+                raise
+        elif len(pos[0]) == 6:
+            if len(pos) == 1:
+                pos = [pos[0][:2], pos[0][2:4], pos[0][4:]]
+            elif len(pos) == 2:
+                pos = [pos[0][:2], pos[0][2:4], '.'.join([pos[0][4:], pos[1]])]
+            else:
+                raise
+        elif len(pos[0]) == 7:
+            if len(pos) == 1:
+                pos = [pos[0][:3], pos[0][3:5], pos[0][5:]]
+            elif len(pos) == 2:
+                pos = [pos[0][:3], pos[0][3:5], '.'.join([pos[0][5:], pos[1]])]
+            else:
+                raise
+        else:
+            raise
+
+    # Everything is derived from deg min sec
+    if len(pos) == 1:
+        deg = float(pos[0])
+        min = deg%1 * 60.
+        sec = min%1 * 60.
+    elif len(pos) == 2:
+        min = float(pos[1])
+        sec = min%1 * 60.
+        deg = float(pos[0]) + min/60.
+    elif len(pos) == 3:
+        sec = float(pos[2])
+        min = float(pos[1]) + sec/60.
+        deg = float(pos[0]) + float(pos[1])/60. + float(pos[2])/3600.
+    else:
+        raise
+
+    # Graticule and hemisphere
+    if lon == 0:
+        if abs(deg) >= 90:
+            sys.stderr.write("Warning: Bad Latitude!\n\n")
+        grat = "Latitude"
+        if sign < 0:
+            hemi = "South"
+        else:
+            hemi = "North"
+    elif lon == 1:
+        grat = "Longitude"
+        if sign < 0:
+            hemi = "West"
+        else:
+            hemi = "East"
+    else:
+        grat = "Longitude (guess)"
+        if sign < 0:
+            hemi = "West (guess)"
+        else:
+            hemi = "East (guess)"
+
+    # Print output in every format
+    print("Graticule   : {0}".format(grat))
+    print("Hemisphere  : {0}".format(hemi))
+    print(u"Deg         : {0:+13.9f}\u00b0".format(sign*deg))
+    print(u"Deg Min     : {0:+3.0f}\u00b0 {1:09.6f}'".format(sign*deg//1, min))
+    print(u"Deg Min Sec : {0:+3.0f}\u00b0 {1:02.0f}' {2:06.3f}\"".format(sign*deg//1,
+            min//1, sec))
+    if lon == 0:
+        print(
+              "DAFIF       : {0}{1:02.0f}{2:02.0f}{3:02.0f}{4:02.0f}".format(
+              hemi[0], deg//1, min//1, sec//1, sec%1 * 100))
+    else:
+        print(
+              "DAFIF       : {0}{1:03.0f}{2:02.0f}{3:02.0f}{4:02.0f}".format(
+              hemi[0], deg//1, min//1, sec//1, sec%1 * 100))
+    print(
+          "Other       : {0}{1:.0f}{2:02.0f}{3:02.0f}.{4:02.0f}".format(
+          hemi[0], deg//1, min//1, sec//1, sec%1 * 100))
+    print()
+
+    return sign*deg
+
+def _debug():
+    """Debug this file."""
+    outs = []
+    print(">>> pyutils: Begin debugging...")
+
+    def dout(string):
+        outs.append(">>> pyutils: {0}".format(string))
+
+    def pout(string):
+        outs.append("{0}".format(string))
+
+    # All test code here ------V
+    
+    # Test conv_pos
+    conv_pos('87.51', 's33.31')
+
+    # All test code here ------^
+    print('\n'.join(outs))
+    print(">>> pyutils: Debugging complete. Exiting...")
+
+latlon.__doc__ == __doc__
+
+if __name__ == '__main__':
+    ll = []
+    if len(sys.argv) <= 1:
+        sys.stderr.write("Input error, see docstring:\n\n")
+        sys.stderr.write(__doc__)
+        sys.exit(1)
+    else:
+        inp = ' '.join(sys.argv[1:])
+        if ',' in  inp:
+            inp = inp.split(',')
+        else:
+            inp = [inp]
+    try:
+        for pos in inp:
+            ll.append(latlon(pos))
+    except:
+        sys.stderr.write("Input error, see docstring:\n\n")
+        sys.stderr.write(__doc__)
+    if len(ll) == 2:
+        print("GMaps       : https://www.google.com/maps/@{},{},10z".format(
+            *ll))
+

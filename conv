@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+"""Show all common bases for a number(s) and its encoding
+
+"""
+from __future__ import print_function
+
+__creator__ = "Matt Busby"
+__email__ = "@MrMattBusby"
+__author__ = "{0} {1}".format(__creator__, __email__)
+__date__ = "2016"
+__copyright__ = "Copyright (c) {year}, {owner}. All rights reserved.".format(\
+        year=__date__.replace(',', '').split()[-1], owner=__creator__)
+__licence__ = """\
+        {copyright}
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions
+        are met:
+
+        1. Redistributions of source code must retain the above copyright
+           notice, this list of conditions and the following disclaimer.
+
+        2. Redistributions in binary form must reproduce the above copyright
+           notice, this list of conditions and the following disclaimer in
+           the documentation and/or other materials provided with the
+           distribution.
+
+        3. Neither the name of the copyright holder nor the names of its
+           contributors may be used to endorse or promote products derived
+           from this software without specific prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+        FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+        COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+        INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+        BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+        LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+        LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+        WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+        POSSIBILITY OF SUCH DAMAGE.
+        """.format(copyright=__copyright__)
+__version__ = "See git history"
+#__version__ = "1.3.0" # unicode-escape
+#__version__ = "1.2.0" # bytes
+#__version__ = "1.1.0" # str
+#__version__ = "1.0.0" # bin oct dec hex
+
+import sys
+
+if __name__ == '__main__':
+    for each in sys.argv[1:]:
+        try:
+            num = int(each, 0)
+        except ValueError:
+            # Perhaps '0x' was omitted, etc
+            try:
+                num = int(each, 16)
+            except ValueError:
+                try:
+                    num = int(each, 8)
+                except ValueError:
+                    try:
+                        num = int(each, 2)
+                    except ValueError:
+                        # Can't convert, just print string/encoding
+                        print("'{}': 0x{} '{}'".format(
+                              each, each.encode().hex(),
+                              bytes(each, 'utf-8').decode('unicode-escape')))
+                        continue
+        print("{0:#b} {0:#o} {0:#d} {0:#x}  '{1}':0x{2}  '{3}':0x{4}".format(
+              num,
+              str(num), str(num).encode().hex(),
+              each, each.encode().hex()))
+

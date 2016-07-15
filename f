@@ -65,9 +65,9 @@ Search for PATTERN(s) with COMMAND method below.
     -I     Str(I)ct case (ignorecase is the default)
     -p      Print (p)lainly without highlighting
     -P     (P)rint the command that would run
-    -n      Search for (n)otes within filetypes, used with 1-PATTERN i* cmds,
+    -n      Search for (n)otes within files, used with 1-PATTERN i* cmds,
               no PATTERNs are necessary
-    -N      Search for (N)asties within filetypes, used with 1-PATTERN i* cmds,
+    -N      Search for (N)asty words within files, used with 1-PATTERN i* cmds,
               no PATTERNs are necessary
   
   \033[1mGREP_OPTIONS:\033[0m

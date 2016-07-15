@@ -66,6 +66,7 @@ Search for PATTERN(s) with COMMAND method below.
     -p      Print (p)lainly without highlighting
     -P     (P)rint the command that would run
     -n      Search for (n)otes within filetypes, used with 1-PATTERN i* cmds,
+              no PATTERNs are necessary
     -N      Search for (N)asties within filetypes, used with 1-PATTERN i* cmds,
               no PATTERNs are necessary
   
@@ -145,10 +146,10 @@ if [ ! -v F_AFILE_RE ] ; then
   F_AFILE_RE='.*/(makefile|.*\.(nmk|gnatmake|cfg|tab|gpr|ali|adb|ads))$'
 fi
 if [ ! -v F_NOTES_RE ] ; then
-  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<wtf\>|\<wth\>|\<hell\>|\<seriously\>|\<dumb|\<stupid|\<idiot|\<dick\>|\<penis\>|\<fuck|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|t work|why [wd]|\<shit\>|\<shitty|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
+  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<seriously\>|t work|why [wd]|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
 fi
 if [ ! -v F_NASTY_RE ] ; then
-  F_NASTY_RE='(\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<penis\>|\<fuck|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<shitty)'
+  F_NASTY_RE='(\<crap|\<dumb|\>stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
 fi
 
 ICASE='-i'

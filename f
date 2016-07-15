@@ -65,7 +65,8 @@ Search for PATTERN(s) with COMMAND method below.
     -I     Str(I)ct case (ignorecase is the default)
     -p      Print (p)lainly without highlighting
     -P     (P)rint the command that would run
-    -n      Search for notes within filetypes, used with 1-PATTERN i* cmds,
+    -n      Search for (n)otes within filetypes, used with 1-PATTERN i* cmds,
+    -N      Search for (N)asties within filetypes, used with 1-PATTERN i* cmds,
               no PATTERNs are necessary
   
   \033[1mGREP_OPTIONS:\033[0m
@@ -144,8 +145,10 @@ if [ ! -v F_AFILE_RE ] ; then
   F_AFILE_RE='.*/(makefile|.*\.(nmk|gnatmake|cfg|tab|gpr|ali|adb|ads))$'
 fi
 if [ ! -v F_NOTES_RE ] ; then
-  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<wtf\>|\<wth\>|\<hell\>|\<seriously\>|\<dumb|\<stupid|\<idiot|\<dick\>|\<penis\>|\<fuck|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|t work|why [wd]|\<shit\>|\<shitty|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
-  #F_NOTES_RE='(\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<penis\>|\<fuck|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<shitty)' # Bad only
+  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<wtf\>|\<wth\>|\<hell\>|\<seriously\>|\<dumb|\<stupid|\<idiot|\<dick\>|\<penis\>|\<fuck|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|t work|why [wd]|\<shit\>|\<shitty|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
+fi
+if [ ! -v F_NASTY_RE ] ; then
+  F_NASTY_RE='(\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<penis\>|\<fuck|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<shitty)'
 fi
 
 ICASE='-i'
@@ -164,6 +167,8 @@ for each in ${@:2} ; do
         ICASE=''
       elif [ "$ch" == 'n' ] ; then
         SEARCH=($F_NOTES_RE)
+      elif [ "$ch" == 'N' ] ; then
+        SEARCH=($F_NASTY_RE)
       else
         ARGS+=($ch)
       fi

@@ -45,6 +45,7 @@ STUFF=(
 "/var/log/yum*"
 "/etc/hosts"
 "/etc/group"
+"/etc/sim*"
 "./code"
 "./.bashrc"
 "./.vimrc"
@@ -60,6 +61,7 @@ done
 yumdb search reason user > ~/"$BNAME"/yumdb.txt
 
 # Save python PIP list
+deactivate 2> /dev/null # Close any virt envs
 pip freeze > ./"$BNAME"/pip_freeze.txt
 
 # Save python pxg list

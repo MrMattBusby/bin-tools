@@ -149,7 +149,7 @@ if [ ! -v F_NOTES_RE ] ; then
   F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<seriously\>|t work|why [wd]|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
 fi
 if [ ! -v F_NASTY_RE ] ; then
-  F_NASTY_RE='(\<crap|\<dumb|\>stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
+  F_NASTY_RE='(\<crap|\<retard\>|\<retarded\>|\>stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
 fi
 
 ICASE='-i'

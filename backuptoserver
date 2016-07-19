@@ -34,7 +34,7 @@
 #   POSSIBILITY OF SUCH DAMAGE.
 
 if [ $# -ne 2 ] ; then
-	echo "Usage: pushtoserver [username] [server]"
+	echo "Usage: backuptoserver [username] [server]"
 	exit
 fi
 
@@ -42,14 +42,12 @@ pushd ~
 
 scp .bashrc .bashrc_custom .bash_profile .pythonrc.py .vimrc "$1"@"$2":'~'
 
-ssh "$1"@"$2" 'cd ~ | mkdir -p bin | echo > .asdf | sed -i "s/\(.*\)\([vV]undle\|Plugin\)\(.*\)/\"\1\2\3/" .vimrc'
+ssh "$1"@"$2" 'cd ~ | mkdir -p bin'
 
-pushd ~/bin
+scp $(find -H bin -maxdepth 1 -type f -executable | xargs) "$1"@"$2":'~/bin'
 
-scp $(find . -maxdepth 1 -type f -executable) "$1"@"$2":'~/bin'
-
-popd
-
+ssh "$1"@"$2" 'cd ~ | sed -i "s/\(.*\)\([vV]undle\|Plugin\)\(.*\)/\"\1\2\3/" .vimrc'
+# -or-
 #scp -r .vim "$1"@"$2":'~'
 
 popd

@@ -34,6 +34,7 @@
 #   POSSIBILITY OF SUCH DAMAGE.
 
 if [ $# -ne 2 ] ; then
+	echo "Help:  Push runcoms and ~/bin to a server that isn't on the internet."
 	echo "Usage: backuptoserver [username] [server]"
 	exit
 fi

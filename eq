@@ -50,21 +50,21 @@ from math import *
 import imp
 instr = '''""$@""'''
 try:
-  imp.load_source('pythonrc','""${HOME}""/.pythonrc')
+  imp.load_source('pythonrc','""${HOME}""/.pythonrc.py')
   try:
     from pythonrc import *
   except: 
-    print('>>> eq: error importing pythonrc!')
+    print('>>> eq: warning: can\'t import * from ~/.pythonrc.py!\n')
 except: 
-  print('>>> eq: error loading ~/.pythonrc!')
+  print('>>> eq: warning: can\'t import ~/.pythonrc.py!\n')
 del imp
 try:
   import consts
   from consts import *
 except: 
-  print('>>> eq: error importing consts!')
+  print('>>> eq: warning: can\'t import consts!\n')
 try:
   print(eval(compile(instr, '<string>', 'eval')))
 except: 
-  print('>>> eq: error executing eval on compiled input string: \"' + instr + '\"')
+  print('>>> eq: error: executing eval on compiled input string: \"' + instr + '\"!')
 "

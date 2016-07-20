@@ -33,32 +33,39 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-pushd ~
+echo "backup: Ensure you have saved off all date from ~/<proj_num> as well as any unsaved/unknown or modified data under ~/svn or ~/git!!!"
+
+pushd ~ > /dev/null
 
 BNAME="bu$(date +%s)"
+
+echo "backup: Running for file '${BNAME}.tgz'..."
 
 # Make a backup directory or use current
 mkdir "$BNAME"
 
 # Copy files/folders
 STUFF=(
-"/var/log/yum*"
-"/etc/hosts"
-"/etc/group"
-"/etc/sim*"
-"./code"
-"./.bashrc"
-"./.vimrc"
-"./.pythonrc"
-"./.pip/pip.log"
+/etc/hosts
+/etc/group
+/etc/sim*
+./code
+./.bashrc
+./.vimrc
+./.pythonrc.py
 )
+# Depricated
+#"/var/log/yum*"
+#"./.pip/pip.log"
 
 for each in "${STUFF[@]}" ; do
-  sudo cp -rfL "$each" "$BNAME"
+  sudo cp -rpfL $each "$BNAME"
 done
 
 # Save YUM list
-yumdb search reason user > ~/"$BNAME"/yumdb.txt
+#yumdb search reason user > ~/"$BNAME"/yumdb.txt
+# Save DNF list
+sudo dnf history userinstalled > ~/"$BNAME"/dnf_hist.txt
 
 # Save python PIP list
 deactivate 2> /dev/null # Close any virt envs
@@ -68,32 +75,35 @@ pip freeze > ./"$BNAME"/pip_freeze.txt
 \ls /usr/lib/python2.7/site-packages > ~/"$BNAME"/python_pxgs_ls.txt
 
 # Save Git tree
-pushd git
+mkdir -p git
+pushd git > /dev/null
 
 tree -dL 4 > ~/"$BNAME"/git_treed.txt
 
-popd
+popd > /dev/null
 
 # Save SVN tree
-pushd svn
+mkdir -p svn
+pushd svn > /dev/null
 
 \tree -dL 4 > ~/"$BNAME"/svn_treed.txt
 
-popd
+popd > /dev/null
 
 # Create tarball
-\tar -czvf "$BNAME".tgz "$BNAME"
+\tar -czf "$BNAME".tgz "$BNAME"
 
 # Remove dir
-\rm -rf "$BNAME"
+sudo rm -rf "$BNAME"
 
 # Copy to shared
 if [ -d /mnt/hgfs/Shared ] ; then
-	\cp "$BNAME".tgz /mnt/hgfs/Shared/
+	\cp -p "$BNAME".tgz /mnt/hgfs/Shared/
 fi
 
 # Move to tmp
 \mv "$BNAME".tgz /tmp/
 
-popd
+popd > /dev/null
 
+echo "backup: Done."

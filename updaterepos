@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Updates
+if [ "$1" == '-u' ] ; then
+	pushd ~/git
+	for each in $(find . -type d -name '.git') ; do
+		pushd "$each"
+		pushd ..
+		git pull
+		popd
+		popd
+	done
+	popd
+	pushd ~/svn
+	for each in $(find . -type d -name '.svn') ; do
+		pushd "$each"
+		pushd ..
+		svn update --accept postpone
+		popd
+		popd
+	done
+	popd
+
+	exit
+fi
+
+# Diffs
+if [ "$1" == '-d' ] ; then
+	pushd ~/git
+	for each in $(find . -type d -name '.git') ; do
+		pushd "$each"
+		pushd ..
+		git diff
+		popd
+		popd
+	done
+	popd
+	pushd ~/svn
+	for each in $(find . -type d -name '.svn') ; do
+		pushd "$each"
+		pushd ..
+		svn diff | colordiff |less -R
+		popd
+		popd
+	done
+	popd
+
+	exit
+fi
+

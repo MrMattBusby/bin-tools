@@ -33,11 +33,12 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-USAGE='f COMMAND [OPTIONS] [GREP_OPTIONS] Arg1 [Arg2]'
+USAGE='f d|f|af|cf|pf|i|ia|ic|ip|if|iaf|icf|ipf [- P|N|n|[Ip]] [- <GREP_OPTIONS>] Arg1 [Arg2]'
 
 HELP='Find files or search within them.
 
 \033[1mUSAGE:\033[0m '"$USAGE"'
+
 Search for PATTERN(s) with COMMAND method below.
 
   \033[1mCOMMAND:\033[0m
@@ -123,13 +124,17 @@ Search for PATTERN(s) with COMMAND method below.
   - Copyright (c) Matt Busby'
 
 # Help
-if [ "$1" == '-h' -o "$1" == '--help' -o "$2" == '-h' -o "$2" == '--help' ] ; then
-  echo -e "$HELP" # | less -r #N
+if [ "$1" == '--help' -o "$2" == '--help' ] ; then
+  echo -e "$HELP" | less -r #N
   exit 0
 fi
-if [ "$#" -le 1 ] ; then
+if [ "$#" -le 1 -o "$1" == '-h' -o "$2" == '-h' ] ; then
   echo -e "Usage: ${USAGE}\nTry \`f --help\` for more information." 1>&2
-  exit 1
+  if [ "$#" -le 1 ] ; then
+    exit 1
+  else
+    exit 0
+  fi
 fi
 
 # Parse options (or [ -n .. )

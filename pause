@@ -1,6 +1,5 @@
 #!/bin/bash
-# (l)ist (c)ontents of file/dir/misc types and total size in the current
-# directory.
+# Pause for input or timeout
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -34,27 +33,9 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-if [ $# -eq 0 ] ; then
-  pushd . 1> /dev/null
+if [ $# -ge 1 ] ; then
+  read -n1 -p "Press any key to continue, timout in $1 sec..." -t $1
 else
-  pushd $@ 1> /dev/null
+  read -n1 -p "Press any key to continue..."
 fi
-DIR=$(pwd -P $@)
-echo -e "${CMDCOL}>>> Listing contents of \"$DIR\" (ignoring items with permissions):${NC}"
-echo
-echo -e "${CMDCOL}All   :${NC} $(find . -maxdepth 1 -regex '\.\/.*' 2>/dev/null|wc -l) ($(find . -maxdepth 1 \
-  -regex '\.\/\..*' 2>/dev/null|wc -l) hidden)"
-echo -e "${CMDCOL}Dirs  :${NC} $(find . -maxdepth 1 -type d -regex '\.\/.*' 2>/dev/null|wc -l) ($(find . -maxdepth 1 \
-  -type d -regex '\.\/\..*' 2>/dev/null|wc -l) hidden)"
-echo -e "${CMDCOL}Files :${NC} $(find . -maxdepth 1 -type f -regex '\.\/.*' 2>/dev/null|wc -l) ($(find . -maxdepth 1 \
-  -type f -regex '\.\/\..*' 2>/dev/null|wc -l) hidden, \
-$(ls -1 *.{tgz,tar,a,ar,rpm,iso,bz,bz2,lz,gz,gzip,tar.gzip,rz,7z,s7z,cab,rar,tar.bz2,tar.gz,zz,zip} 2>/dev/null|\
-sort -u|wc -l) archived)"
-echo -e "${CMDCOL}Links :${NC} $(find . -maxdepth 1 -type l -regex '\.\/.*' 2>/dev/null|wc -l) ($(find . -maxdepth 1 \
-  -type l -regex '\.\/\..*' 2>/dev/null|wc -l) hidden)"
-echo -e "${CMDCOL}Size  :${NC} $(ls -Agh1 2>/dev/null|head -1|sed 's|total ||') ($(du -h 2>/dev/null|tail -1|\
-  sed 's|\s*\.\s*$||') including sub-directories)"
-echo
-ls --color=auto -Apq
-popd 1> /dev/null
 

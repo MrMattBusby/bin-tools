@@ -1,0 +1,69 @@
+#!/bin/bash
+# Print information on user/pc/etc
+# 
+#   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
+#   All rights reserved.
+#
+#   Redistribution and use in source and binary forms, with or without
+#   modification, are permitted provided that the following conditions
+#   are met:
+#   
+#   1. Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#   
+#   2. Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in
+#      the documentation and/or other materials provided with the
+#      distribution.
+#   
+#   3. Neither the name of the copyright holder nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#   
+#   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+#   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+#   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+#   FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+#   COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+#   INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#   BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+#   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+#   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+#   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+#   POSSIBILITY OF SUCH DAMAGE.
+
+TTYINFO=$(tty|sed 's|/dev/||')
+WHOINFO=$(who|grep $USER|grep pts|wc -l)
+HOSTINFO1=$(uptime|grep -o "up.*users" | sed 's|  | |g')
+HOSTINFO2=$(who -q|head -1|sed 's| |\n|g'|sort -u|xargs)
+PC_INFO=$(cat /proc/cpuinfo | grep -i "model name" | head -1 | sed 's/.*: //' | xargs)
+PC_NUM=$(cat /proc/cpuinfo | grep -i "processor" | wc -l)
+PC_STAT_C="$(($(mpstat | grep %idle | sed 's/%idle.*//' | wc -c)-1))"
+AVG=($(cat /proc/loadavg))
+LOAD_RAW=($(mpstat | grep %idle -A1 | tail -1 | sed "s/.\{${PC_STAT_C}\}//" | xargs))
+LOAD=$(echo ${LOAD_RAW[0]} | awk '{print 100-$1}')
+MEM=($(\free -tm | grep Mem | awk '{print $2,$3}'))
+CACHE=$(\free -tm | grep "\-/+" | awk '{print $3}')
+SWP=($(\free -tm | grep Swap | awk '{print $2,$3}'))
+IP=$(/sbin/ifconfig|egrep -o "(inet addr:|inet )[0-9\.]*" | sed "s/inet addr://" | sed "s/inet //" | xargs | sed 's/ /, /g')
+OS=$(cat /etc/redhat-release 2>/dev/null || cat /etc/issue 2>/dev/null | head -1 | sed 's/^\s*//' | sed 's/\s*$//')
+UNAME="$(uname -o) $(uname -r)"
+VGREP=$(grep --version|head -1|\egrep -o "[0-9]+(\.[0-9]+)+")
+VGNU=$(gnuplot --version|sed 's| patch.*||' | tr ' ' ':')
+VGCC=$(gcc --version|head -1|egrep -o '\(GCC\) .\..\..'|sed 's|(GCC) ||')
+VVIM=$(vim --version|head -1|egrep -o '.\..')
+VSVN=$(svn --version 2>/dev/null|head -1|sed 's|, version||'|sed 's| (.*||' | tr ' ' ':')
+VPY=$(echo $(/bin/env python -V 2>&1)|egrep -o "[pP]ython [0-9\.]*" | tr ' ' ':')
+DATE=$(date | xargs)
+
+echo -e "${BWHITE}User  ${BBLACK}: ${WHITE}$USER:$EUID ($HOME)"
+echo -e "${BWHITE}Shell ${BBLACK}: ${WHITE}$SHELL $BASHPID ($TERM: $TTYINFO of $WHOINFO)"
+echo -e "${BWHITE}Host  ${BBLACK}: ${WHITE}${HOSTNAME} ${DISPLAY} ($HOSTINFO1: $HOSTINFO2)"
+echo -e "${BWHITE}PC    ${BBLACK}: ${WHITE}$PC_INFO x$PC_NUM"
+echo -e "${BWHITE}Loads ${BBLACK}: ${WHITE}${LOAD}% ${AVG[@]::4} Mem:${MEM[1]}(${CACHE})/${MEM[0]}Mb Swap:${SWP[1]}/${SWP[0]}Mb"
+echo -e "${BWHITE}IPs   ${BBLACK}: ${WHITE}${IP}"
+echo -e "${BWHITE}OS    ${BBLACK}: ${WHITE}${OS}: $UNAME"
+echo -e "${BWHITE}Vers  ${BBLACK}: ${WHITE}grep:$VGREP $VGNU gcc:$VGCC VIM:$VVIM $VPY"
+echo -e "${BWHITE}Date  ${BBLACK}: ${WHITE}${DATE}${NC}"
+

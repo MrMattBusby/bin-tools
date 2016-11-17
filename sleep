@@ -34,8 +34,8 @@
 #   POSSIBILITY OF SUCH DAMAGE.
 
 if [ $# -eq 0 ] ; then
-  sleep 999999
+  /usr/bin/sleep 999999 || /bin/sleep 999999
 else
-  sleep $1
+  /usr/bin/sleep $1 || /bin/sleep $1
 fi
 

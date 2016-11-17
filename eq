@@ -49,7 +49,7 @@ import sys, os, math
 from math import *
 import imp
 DEBUG = 0
-IMPORTS = 0
+IMPORTS = 1
 instr = '''""$@""'''
 if IMPORTS:
   try:
@@ -63,12 +63,12 @@ if IMPORTS:
     if DEBUG:
       print('>>> eq: warning: can\'t import ~/.pythonrc.py!\n')
   del imp
-  try:
-    import consts
-    from consts import *
-  except: 
-    if DEBUG:
-      print('>>> eq: warning: can\'t import consts!\n')
+  # try:
+  #   import consts
+  #   from consts import *
+  # except: 
+  #   if DEBUG:
+  #     print('>>> eq: warning: can\'t import consts!\n')
 del DEBUG
 del IMPORTS
 try:

@@ -48,23 +48,32 @@ from __future__ import print_function, division
 import sys, os, math
 from math import *
 import imp
+DEBUG = 0
+IMPORTS = 0
 instr = '''""$@""'''
-try:
-  imp.load_source('pythonrc','""${HOME}""/.pythonrc.py')
+if IMPORTS:
   try:
-    from pythonrc import *
+    imp.load_source('pythonrc','""${HOME}""/.pythonrc.py')
+    try:
+      from pythonrc import *
+    except: 
+      if DEBUG:
+        print('>>> eq: warning: can\'t import * from ~/.pythonrc.py!\n')
   except: 
-    print('>>> eq: warning: can\'t import * from ~/.pythonrc.py!\n')
-except: 
-  print('>>> eq: warning: can\'t import ~/.pythonrc.py!\n')
-del imp
-try:
-  import consts
-  from consts import *
-except: 
-  print('>>> eq: warning: can\'t import consts!\n')
+    if DEBUG:
+      print('>>> eq: warning: can\'t import ~/.pythonrc.py!\n')
+  del imp
+  try:
+    import consts
+    from consts import *
+  except: 
+    if DEBUG:
+      print('>>> eq: warning: can\'t import consts!\n')
+del DEBUG
+del IMPORTS
 try:
   print(eval(compile(instr, '<string>', 'eval')))
 except: 
   print('>>> eq: error: executing eval on compiled input string: \"' + instr + '\"!')
 "
+

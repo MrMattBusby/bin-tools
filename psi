@@ -1,5 +1,5 @@
 #!/bin/bash
-# PS Info
+PURPOSE="PS Info."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -32,6 +32,18 @@
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
+
+CMDNAME="$0"
+USAGE="${CMDNAME} PROC_NO"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -ne 1 ] ; then
+  echo -e "${HELP}"
+	exit 2
+fi
 
 ps -p "$1" -o user,pid,ppid,pri,tgid,c,egroup,euser,tname,stat,ipcns,nice,lsession,vsz,rsz,sz,bsdstart,bsdtime,etimes,command
 

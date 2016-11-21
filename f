@@ -1,5 +1,5 @@
 #!/bin/bash
-# Find files or search within them.
+PURPOSE="Find files or search within them."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -33,9 +33,9 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-USAGE='f d|f|af|cf|pf|i|ia|ic|ip|if|iaf|icf|ipf [- P|N|n|[Ip]] [- <GREP_OPTIONS>] Arg1 [Arg2]'
-
-HELP='Find files or search within them.
+CMDNAME="$0"
+USAGE="$CMDNAME"' d|f|af|cf|pf|i|ia|ic|ip|if|iaf|icf|ipf [- P|N|n|[Ip]] [- <GREP_OPTIONS>] Arg1 [Arg2]'
+HELP="$PURPOSE"'
 
 \033[1mUSAGE:\033[0m '"$USAGE"'
 

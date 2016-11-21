@@ -1,5 +1,5 @@
 #!/bin/bash
-# Backup current distro essentials
+PURPOSE="Backup current distro essentials."
 #
 #   Copyright (c) 2015-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -32,6 +32,18 @@
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
+
+CMDNAME="$0"
+USAGE="${CMDNAME}"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -ne 0 ] ; then
+  echo -e "${HELP}"
+	exit 2
+fi
 
 echo "backup: Ensure you have saved off all date from ~/<proj_num> as well as any unsaved/unknown or modified data under ~/svn or ~/git!!!"
 

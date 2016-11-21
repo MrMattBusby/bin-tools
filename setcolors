@@ -1,5 +1,5 @@
 #!/bin/bash
-# Term color definitions, sourced from .bashrc.
+PURPOSE="Term color definitions, sourced from .bashrc."
 # 
 #   Copyright (c) 2014-2015, Matt Busby <busby.gator@gmail.com>.
 #   All rights reserved.
@@ -32,6 +32,19 @@
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
+
+CMDNAME="$0"
+USAGE=". ${CMDNAME}"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"'
+Source this file (done so automatically in .bashrc).'
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -ne 0 ] ; then
+  echo -e "${HELP}"
+	exit 2
+fi
 
 # Normal
 export BLACK='\e[0;30m'   # Black

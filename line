@@ -1,5 +1,5 @@
 #!/bin/bash
-# Select a line from a pipe (counts from 0)
+PURPOSE="Select a line from a pipe (counts from 0)."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -33,8 +33,16 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-if [ $# -ne 1 ] ; then
-  echo -e "${CMDCOL}line: Use only one numeric input parameter!${NC}"
-else
-  head -$(($1+1)) | tail -1
+CMDNAME="$0"
+USAGE="${CMDNAME} LINE_NO"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -ne 1 ] ; then
+  echo -e "${HELP}"
+	exit 2
 fi
+
+head -$(($1+1)) | tail -1

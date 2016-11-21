@@ -1,5 +1,5 @@
 #!/bin/bash
-# Diffuse in the background
+PURPOSE="Diffuse in the background."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -33,9 +33,17 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-if [ $# -lt 1 ] ; then
-  echo -e "${CMDCOL}usage:${NC} d arg1 arg2.."
-else
-  echo -e "${CMDCOL}diffuse -w $@ &${NC}"
-  diffuse -w "$@" &
+CMDNAME="$0"
+USAGE="${CMDNAME} FILENAMES..."
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -eq 0 ] ; then
+  echo -e "${HELP}"
+	exit 2
 fi
+
+echo -e "${CMDCOL}diffuse -w $@ &${NC}"
+diffuse -w "$@" &

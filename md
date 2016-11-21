@@ -1,5 +1,5 @@
 #!/bin/bash
-# View a markdown file via pandoc/firefox
+PURPOSE="View a markdown file via pandoc/firefox."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -33,11 +33,19 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
-if [ $# -ne 1 ] ; then
-  echo -e "${CMDCOL}md: Use one input parameter!${NC}"
+CMDNAME="$0"
+USAGE="${CMDNAME} FILENAME"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -ne 1 ] ; then
+  echo -e "${HELP}"
+	exit 2
 else
   if [ $(command -v pandoc) ] ; then
-    local BN=$(basename "$1")
+    BN=$(basename "$1")
     echo -e "${CMDCOL}pandoc $1 -o "/tmp/${BN}.html" && firefox "/tmp/${BN}.html" &${NC}"
     pandoc $1 -o "/tmp/${BN}.html" && firefox "/tmp/${BN}.html" &
   else

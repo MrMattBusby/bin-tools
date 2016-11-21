@@ -1,5 +1,5 @@
 #!/bin/bash
-# Remote login (ssh), remember tab-complete after '@': $ rl @somehost
+PURPOSE="Remote login (ssh), remember tab-complete after '@': $ rl @somehost."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -32,6 +32,18 @@
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
+
+CMDNAME="$0"
+USAGE="${CMDNAME} @SERVER"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -eq 0 ] ; then
+  echo -e "${HELP}"
+	exit 2
+fi
 
 echo -e "${CMDCOL}ssh -Y ${NAME}$1${NC}"
 ssh -Y ${NAME}$1

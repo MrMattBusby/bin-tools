@@ -1,5 +1,5 @@
 #!/bin/bash
-# Swap two filenames, fast method, few temp files, confirmation.
+PURPOSE="Swap two filenames, fast method, few temp files, confirmation."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -33,11 +33,19 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 
+CMDNAME="$0"
+USAGE="${CMDNAME} FILENAME1 FILENAME2"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
 # Use 2 arguments
-if [ $# -ne 2 ] ; then
-	echo -e "${CMDCOL}usage:${NC} swapnames filename1 filename2!"
-  exit
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -ne 2 ] ; then
+  echo -e "${HELP}"
+	exit 2
 fi
+
 FILE1=$(dirname $1)/$(basename $1)
 FILE2=$(dirname $2)/$(basename $2)
 

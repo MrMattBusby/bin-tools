@@ -1,4 +1,18 @@
 #!/bin/bash
+PURPOSE="Updates all repositories found under ~/git and ~/svn!"
+
+CMDNAME="$0"
+USAGE="${CMDNAME}"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+elif [ $# -ne 0 ] ; then
+  echo -e "${HELP}"
+	exit 2
+fi
+
 
 # Updates
 if [ "$1" == '-u' ] ; then

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Find newly modified files.
+PURPOSE="Find newly modified files."
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -32,5 +32,14 @@
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
+
+CMDNAME="$0"
+USAGE="${CMDNAME} [LOCATION]"
+HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+
+if [[ "$1" == '-h' ]] ; then
+  echo -e "${HELP}"
+	exit 0
+fi
 
 find "$@" -type f -printf '%Ty-%Tm-%Td %TH:%TM:%TS %M %u:%g\t%p\n' | sort -n

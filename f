@@ -137,7 +137,7 @@ if [ "$#" -le 1 -o "$1" == '-h' -o "$2" == '-h' ] ; then
   fi
 fi
 
-# Parse options (or [ -n .. )
+# Parse options (or [ -n ..  for older bash)
 if [ ! -v F_IGNORE_RE ] ; then
   F_IGNORE_RE='(\/.*\.(svn-base|page)|\/cscope.out|\/tags)$'
 fi

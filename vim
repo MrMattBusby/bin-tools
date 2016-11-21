@@ -2,16 +2,15 @@
 # -*- encoding: utf-8 -*-
 """Sanitize filename inputs to VIM
 
-COPYRIGHT:
-- See __copyright__ below.
+LICENSE
 
-LICENSE:
-- See __license__ below.
+See below __license__
 
-USAGE:
-  $ vim filename.c:15: [more]  # Becomes vim +15 filename.c
-  $ vim <(echo 'filename.c' [more])  # Redirection will open filename.c
-  $ echo 'filename.c' [more] | vim  # Piping will run vim - (temp buffer)
+USAGE
+
+`$ vim filename.c:15: [more]  # Becomes vim +15 filename.c`
+`$ vim <(echo 'filename.c' [more])  # Redirection will open filename.c`
+`$ echo 'filename.c' [more] | vim  # Piping will run vim - (temp buffer)`
 
 """
 from __future__ import print_function, with_statement
@@ -20,11 +19,18 @@ from __future__ import print_function, with_statement
 #
 __creator__ = "Matt Busby"
 __email__ = "@MrMattBusby"
-__author__ = "{0} {1}".format(__creator__, __email__)
 __date__ = "2015-2016"
-__copyright__ = "Copyright (c) {year}, {owner}. All rights reserved.".format(\
-        year=__date__.replace(',', '').split()[-1], owner=__creator__)
+__version__ = "See GitHub"
+__project__ = "https://github.com/MrMattBusby/"
+
+__author__ = "{0} {1}".format(__creator__, __email__)
+__copyright__ = "Copyright (c) {year}, {owner}. ".format(
+                        owner = __author__,
+                        year = "2012") + \
+                   "All rights reserved."
 __licence__ = """\
+        BSD 3-Clause License
+
         {copyright}
 
         Redistribution and use in source and binary forms, with or without
@@ -56,7 +62,6 @@ __licence__ = """\
         WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
         POSSIBILITY OF SUCH DAMAGE.
         """.format(copyright=__copyright__)
-__version__ = "1.0.0 (See git history)"
 
 ######################## IMPORTS ##############################################
 #

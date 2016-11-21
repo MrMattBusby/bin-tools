@@ -2,16 +2,22 @@
 # -*- encoding: utf-8 -*-
 """Show all common number bases for an input and/or its en/decoding.
 
-Warning
-- Your terminal must support UTF-8 to use this script
+LICENSE
 
-Usage
-  $ conv 100
-  $ conv 0x100
-  $ conv ffff
-  $ conv -1.25
-  $ conv 'FooBar'
-  $ conv '\u2660'
+See below __license__
+
+USAGE
+
+`conv 100`
+`conv 0x100`
+`conv ffff`
+`conv -1.25`
+`conv 'FooBar'`
+`conv '\u2660'`
+
+WARNING
+
+Your terminal must support UTF-8 to use this script
 
 """
 from __future__ import print_function
@@ -129,5 +135,8 @@ def conv(instr):
 
 if __name__ == '__main__':
     for instr in sys.argv[1:]:
-        conv(instr)
+        if instr in ('-h', '--help'):
+            print(__doc__)
+        else:
+            conv(instr)
 

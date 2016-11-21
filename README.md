@@ -20,7 +20,7 @@ Bash tools & scripts helpful for your Linux environment.
   + Select a column from a piped input (counts from 0)
   + `$ echo -n 'a b c\nd e f' | line 1 | col 1` Select 'e'
   + `$ svn st | grep ^? | col 1 rm` Remove unknown files
-- conv -- (Conv)ert -- python
+- conv -- (Conv)ert -- python3
   + Show all common number bases for an input and/or its en/decoding
   + `$ conv 0x30` Shows all bases and encodings for hex number 0x30
 - dgrep -- (D)escriptor (GREP)
@@ -34,7 +34,7 @@ Bash tools & scripts helpful for your Linux environment.
   + A quick finder
   + `$ f ip '(todo|fixme)'` Find either tag inside a 'python' filetype below '.' (disregarding case by default)
   + `$ f d -c bin$` Count the number of dirs that end in 'bin'
-  + `$ f cf -Ip run` Find a 'C' filetype containing 'run' without highlighting and disregarding case
+  + `$ f cf -Ip run` Find a 'C' filetype containing 'run' without highlighting and exact case
 - inc -- (Inc)rementer -- python
   + Replace placeholder indices using a python-style incrementer
   + ` $ echo "var[##];\nvar[##]" | inc -2::2` Echoes string with indices -2, 0

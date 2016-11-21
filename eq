@@ -1,15 +1,7 @@
 #!/bin/bash
-#
 # (eq)uals: Use python to evaluate your input (mainly for math functions)
 #
-# Warning: 
-#   Unsafe for widespread useage.
-#
-# Usage: 
-#   $ eq 4.+8/2                               # Simple functions w/o spaces or ()s don't need quotes
-#   $ eq 'count(4, 8) * sin(pi/2.) * FT_TO_M' # Can use math, pyutils, and consts directly
-#   $ eq '(wait(2), isodd(3)))[1]'            # Multiple functions, tuples
-#   $ eq 'os.system("ls ..")'                 # Do things you probably shouldn't
+# LICENSE
 # 
 #   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
 #   All rights reserved.
@@ -42,6 +34,18 @@
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
+# 
+# USAGE
+# 
+# `$ eq 4.+8/2`                               # Simple functions w/o spaces or ()s don't need quotes
+# `$ eq 'count(4, 8) * sin(pi/2.) * FT_TO_M'` # Can use math, pyutils, and consts directly
+# `$ eq '(wait(2), isodd(3)))[1]'`            # Multiple functions, tuples
+# `$ eq 'os.system("ls ..")'`                 # Do things you probably shouldn't
+# 
+# WARNING
+# 
+# Unsafe for widespread useage.
+#
 
 /usr/bin/env python -c "\
 from __future__ import print_function, division
@@ -51,6 +55,9 @@ import imp
 DEBUG = 0
 IMPORTS = 1
 instr = '''""$@""'''
+if instr in ('-h', '--help'):
+  print('eq: Usage: \$eq \'equation\'')
+  sys.exit()
 if IMPORTS:
   try:
     imp.load_source('pythonrc','""${HOME}""/.pythonrc.py')

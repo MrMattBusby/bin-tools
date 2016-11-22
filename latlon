@@ -2,41 +2,41 @@
 # -*- coding: utf-8 -*-
 """Convert wide range of lat/lon formats into all other formats and map link.
 
-LICENSE
-
+License
+-------
 See below __license__
 
-USAGE
+Usage
+-----
 
-  FORMAT
-
-    0) Degrees:
+  Format
+  ------
+    1. Degrees:
        -87.654321         123.456789          +87.654321         West87.654321
        87.654321w         87.654321 WEST      123 west           -12
-    1) Degrees and minutes:
+    2. Degrees and minutes:
        -87d 39.25926m     87-39.25926         87deg/39.25926min  W87 39.25926
-    2) Degrees, minutes, and seconds:
+    3. Degrees, minutes, and seconds:
        -87d 39m 15.5556   +87-39-15.5556      87/39/15.5556w     87 39min 15 w
-    3) DAFIF (WDDDMMSSss NDDMMSSss):
+    4. DAFIF (WDDDMMSSss NDDMMSSss):
        S87391556          E123272444
-    4) Other (DDMM.mm DDDMM.mm DDMMSS.ss DDDMMSS.ss):
+    5. Other (DDMM.mm DDDMM.mm DDMMSS.ss DDDMMSS.ss):
        -8739.26           -873915.56          w1232724.44        12327 w
 
-  E.G.
-
+  E.g.
+  ----
     $ latlon +33.355n, West121443321
 
-WARNING
-
-Fields MUST be comma-separated for multiple entries!
-Do no use 's' for seconds as it will be assumed to mean 's' as in South!
-
+Warning
+-------
+- Fields MUST be comma-separated for multiple entries!
+- Do no use 's' for seconds as it will be assumed to mean 's' as in South!
 """
 from __future__ import print_function, division
 
 __creator__ = "Matt Busby"
 __email__ = "@MrMattBusby"
-__date__ = "2016"
+__date__ = "01/2012"  # Created originally as conv
 __version__ = "See GitHub"
 #__version__ = "4"  # Maps
 #__version__ = "3"  # Main loop
@@ -47,7 +47,7 @@ __project__ = "https://github.com/MrMattBusby/"
 __author__ = "{0} {1}".format(__creator__, __email__)
 __copyright__ = "Copyright (c) {year}, {owner}. ".format(
                         owner = __author__,
-                        year = "2012") + \
+                        year = "2012-2016") + \
                    "All rights reserved."
 __licence__ = """\
         BSD 3-Clause License

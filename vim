@@ -2,16 +2,15 @@
 # -*- encoding: utf-8 -*-
 """Sanitize filename inputs to VIM
 
-LICENSE
-
+License
+-------
 See below __license__
 
-USAGE
-
-`$ vim filename.c:15: [more]  # Becomes vim +15 filename.c`
-`$ vim <(echo 'filename.c' [more])  # Redirection will open filename.c`
-`$ echo 'filename.c' [more] | vim  # Piping will run vim - (temp buffer)`
-
+Usage
+-----
+- $ vim filename.c:15: [more]  # Becomes vim +15 filename.c
+- $ vim <(echo 'filename.c' [more])  # Redirection will open filename.c
+- $ echo 'filename.c' [more] | vim  # Piping will run vim - (temp buffer)
 """
 from __future__ import print_function, with_statement
 
@@ -19,14 +18,14 @@ from __future__ import print_function, with_statement
 #
 __creator__ = "Matt Busby"
 __email__ = "@MrMattBusby"
-__date__ = "2015-2016"
+__date__ = "01/2015"
 __version__ = "See GitHub"
 __project__ = "https://github.com/MrMattBusby/"
 
 __author__ = "{0} {1}".format(__creator__, __email__)
 __copyright__ = "Copyright (c) {year}, {owner}. ".format(
                         owner = __author__,
-                        year = "2012") + \
+                        year = "2015-2016") + \
                    "All rights reserved."
 __licence__ = """\
         BSD 3-Clause License

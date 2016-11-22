@@ -38,7 +38,7 @@ USAGE="${CMDNAME} [LOCATION]"
 HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
 
 if [[ "$1" == '-h' ]] ; then
-  echo -e "${HELP}"
+  >&2 echo -e "${HELP}"
 	exit 0
 fi
 

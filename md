@@ -36,12 +36,16 @@ PURPOSE="View a markdown file via pandoc/firefox."
 CMDNAME="$0"
 USAGE="${CMDNAME} FILENAME"
 HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+BRED='\e[1;31m'
+SDARK='\e[2m'
+NC='\e[0m'
 
 if [[ "$1" == '-h' ]] ; then
-  echo -e "${HELP}"
+  >&2 echo -e "${HELP}"
 	exit 0
 elif [ $# -ne 1 ] ; then
-  echo -e "${HELP}"
+  >&2 echo -e "${BRED}${CMDNAME}: error: ${NC}Invalid arguments!\n"
+  >&2 echo -e "${SDARK}${HELP}${NC}"
 	exit 2
 else
   if [ $(command -v pandoc) ] ; then
@@ -49,6 +53,7 @@ else
     echo -e "${CMDCOL}pandoc $1 -o "/tmp/${BN}.html" && firefox "/tmp/${BN}.html" &${NC}"
     pandoc $1 -o "/tmp/${BN}.html" && firefox "/tmp/${BN}.html" &
   else
-    echo -e "${CMDCOL}md: pandoc is required!${NC}"
+    >&2 echo -e "${CMDCOL}md: pandoc is required!${NC}"
+    exit 2
   fi
 fi

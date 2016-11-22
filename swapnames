@@ -36,13 +36,17 @@ PURPOSE="Swap two filenames, fast method, few temp files, confirmation."
 CMDNAME="$0"
 USAGE="${CMDNAME} FILENAME1 FILENAME2"
 HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
+BRED='\e[1;31m'
+SDARK='\e[2m'
+NC='\e[0m'
 
 # Use 2 arguments
 if [[ "$1" == '-h' ]] ; then
-  echo -e "${HELP}"
+  >&2 echo -e "${HELP}"
 	exit 0
 elif [ $# -ne 2 ] ; then
-  echo -e "${HELP}"
+  >&2 echo -e "${BRED}${CMDNAME}: error: ${NC}Invalid arguments!\n"
+  >&2 echo -e "${SDARK}${HELP}${NC}"
 	exit 2
 fi
 
@@ -51,13 +55,13 @@ FILE2=$(dirname $2)/$(basename $2)
 
 # Check file 1
 if [ ! -f $FILE1 -a ! -d $FILE1 ] ; then
-	echo -e "${CMDCOL}swapnames:${NC} file $FILE1 does not exist!"
+	>&2 echo -e "${CMDCOL}swapnames:${NC} file $FILE1 does not exist!"
   exit
 fi
 
 # Check file 2
 if [ ! -f $FILE2 -a ! -d $FILE2 ] ; then
-	echo -e "${CMDCOL}swapnames:${NC} file $FILE2 does not exist!"
+	>&2 echo -e "${CMDCOL}swapnames:${NC} file $FILE2 does not exist!"
   exit
 fi
 
@@ -66,4 +70,4 @@ mv $FILE1 $FILE1.$$ && \
 mv $FILE2 $FILE1 && \
 mv $FILE1.$$ $FILE2 && \
 echo -e "${CMDCOL}swapnames:${NC} swapped filenames \"$FILE1\" with \"$FILE2\"." || \
-echo -e "${CMDCOL}swapnames:${NC} failed!"
+>&2 echo -e "${CMDCOL}swapnames:${NC} failed!"

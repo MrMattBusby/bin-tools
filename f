@@ -35,6 +35,9 @@ PURPOSE="Find files or search within them."
 
 CMDNAME="$0"
 USAGE="$CMDNAME"' d|f|af|cf|pf|i|ia|ic|ip|if|iaf|icf|ipf [- P|N|n|[Ip]] [- <GREP_OPTIONS>] Arg1 [Arg2]'
+BRED='\e[1;31m'
+SDARK='\e[2m'
+NC='\e[0m'
 HELP="$PURPOSE"'
 
 \033[1mUSAGE:\033[0m '"$USAGE"'
@@ -124,17 +127,12 @@ Search for PATTERN(s) with COMMAND method below.
   - Copyright (c) Matt Busby'
 
 # Help
-if [ "$1" == '--help' -o "$2" == '--help' ] ; then
+if [ "$1" == '--help' -o "$2" == '--help' -o "$1" == '-h' -o "$2" == '-h' ] ; then
   echo -e "$HELP" | less -r #N
   exit 0
-fi
-if [ "$#" -le 1 -o "$1" == '-h' -o "$2" == '-h' ] ; then
-  echo -e "Usage: ${USAGE}\nTry \`f --help\` for more information." 1>&2
-  if [ "$#" -le 1 ] ; then
-    exit 1
-  else
-    exit 0
-  fi
+elif [ "$#" -le 1 ] ; then
+  >&2 echo -e "${BRED}${CMDNAME}: error: ${NC}Invalid arguments!\n\n${SDARK}Usage: >>${USAGE}\n\nTry \`f --help\` for more information.${NC}"
+  exit 2
 fi
 
 # Parse options (or [ -n ..  for older bash)
@@ -196,8 +194,8 @@ elif [ "$1" == "pf" -o "$1" == "ip" -o "$1" == "ipf" ] ; then
 elif [ "$1" == "af" -o "$1" == "ia" -o "$1" == "iaf" ] ; then
   CMD1='find . -type f -regextype egrep -iregex '\'"$F_AFILE_RE"\'' -print0'
 else
-  echo -e "f: invalid command -- '$1'\nUsage: ${USAGE}\nTry \`f --help\` for more information." 1>&2
-  exit 1
+  >&2 echo -e "f: invalid command -- '$1'\nUsage: ${USAGE}\nTry \`f --help\` for more information." 1>&2
+  exit 2
 fi
 
 # Find filename or in file

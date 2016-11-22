@@ -2,16 +2,15 @@
 # -*- encoding: utf-8 -*-
 """Replace indices (or some symbol) using a counter via pipe.
 
-LICENSE
-
+License
+-------
 See below __license__
 
-USAGE
-
-`echo -e 'asdf[##]\\nfdsa[##]' | inc -2::-2`
- asdf[-2]
- asdf[-4]
-
+Usage
+-----
+- $echo -e 'asdf[##]\\nfdsa[##]' | inc -2::-2
+  asdf[-2]
+  asdf[-4]
 """
 from __future__ import print_function, with_statement, division
 
@@ -26,7 +25,7 @@ __project__ = "https://github.com/MrMattBusby/"
 __author__ = "{0} {1}".format(__creator__, __email__)
 __copyright__ = "Copyright (c) {year}, {owner}. ".format(
                         owner = __author__,
-                        year = "2012") + \
+                        year = "2015-2016") + \
                    "All rights reserved."
 __licence__ = """\
         BSD 3-Clause License

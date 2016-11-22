@@ -37,11 +37,19 @@ CMDNAME="$0"
 USAGE="${CMDNAME}"
 HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
 
+BBLACK='\e[1;30m'
+BRED='\e[1;31m'
+BWHITE='\e[1;37m'
+NC='\e[0m'
+SDARK='\e[2m'
+WHITE='\e[0;37m'
+
 if [[ "$1" == '-h' ]] ; then
-  echo -e "${HELP}"
+  >&2 echo -e "${HELP}"
 	exit 0
 elif [ $# -ne 0 ] ; then
-  echo -e "${HELP}"
+  >&2 echo -e "${BRED}${CMDNAME}: error: ${NC}Invalid arguments!\n"
+  >&2 echo -e "${SDARK}${HELP}${NC}"
 	exit 2
 fi
 

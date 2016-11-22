@@ -1,5 +1,5 @@
 #!/bin/bash
-# (eq)uals: Use python to evaluate your input (mainly for math functions)
+PURPOSE='(eq)uals: Use python to evaluate your input (e.g. for math functions)'
 #
 # LICENSE
 # 
@@ -35,52 +35,66 @@
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
 # 
-# USAGE
-# 
-# `$ eq 4.+8/2`                               # Simple functions w/o spaces or ()s don't need quotes
-# `$ eq 'count(4, 8) * sin(pi/2.) * FT_TO_M'` # Can use math, pyutils, and consts directly
-# `$ eq '(wait(2), isodd(3)))[1]'`            # Multiple functions, tuples
-# `$ eq 'os.system("ls ..")'`                 # Do things you probably shouldn't
-# 
 # WARNING
 # 
 # Unsafe for widespread useage.
-#
 
+CMDNAME='eq'
+USAGE="$CMDNAME 'EQUATION'
+  eq 4.+8/2                               # Simple functions w/o spaces or ()s don't need quotes
+  eq 'count(4, 8) * sin(pi/2.) * FT_TO_M' # Can use math, pyutils, and consts directly
+  eq '(wait(2), isodd(3)))[1]'            # Multiple functions, tuples
+  eq 'os.system(\"ls ..\")'                 # Do things you probably shouldn't
+
+Both os and sys are imported, math is imported *."
+HELP="${PURPOSE}\n\nUsage: ${USAGE}"
+BRED='\e[1;31m'
+SDARK='\e[2m'
+NC='\e[0m'
+
+if [ "$1" == '-h' ] ; then
+  >&2 echo -e "${HELP}"
+  exit 0
+elif [ "$#" -lt 1 ] ; then
+  >&2 echo -e "${BRED}${CMDNAME}: error: ${NC}Invalid arguments!\n"
+  >&2 echo -e "${SDARK}${HELP}${NC}"
+  exit 2
+fi
+
+# Call python
 /usr/bin/env python -c "\
 from __future__ import print_function, division
+
 import sys, os, math
 from math import *
 import imp
-DEBUG = 0
-IMPORTS = 1
-instr = '''""$@""'''
-if instr in ('-h', '--help'):
-  print('eq: Usage: \$eq \'equation\'')
-  sys.exit()
+
+DEBUG = False
+IMPORTS = True
+
+instr = '''$@'''
+
 if IMPORTS:
   try:
-    imp.load_source('pythonrc','""${HOME}""/.pythonrc.py')
+    imp.load_source('pythonrc','${HOME}/.pythonrc.py')
     try:
       from pythonrc import *
     except: 
       if DEBUG:
-        print('>>> eq: warning: can\'t import * from ~/.pythonrc.py!\n')
+        print('eq: warning: can\'t import * from ~/.pythonrc.py!\n',
+        file=sys.stderr)
   except: 
     if DEBUG:
-      print('>>> eq: warning: can\'t import ~/.pythonrc.py!\n')
+      print('eq: warning: can\'t import ~/.pythonrc.py!\n', file=sys.stderr)
   del imp
-  # try:
-  #   import consts
-  #   from consts import *
-  # except: 
-  #   if DEBUG:
-  #     print('>>> eq: warning: can\'t import consts!\n')
+
 del DEBUG
 del IMPORTS
+
 try:
   print(eval(compile(instr, '<string>', 'eval')))
 except: 
-  print('>>> eq: error: executing eval on compiled input string: \"' + instr + '\"!')
+  print('eq: error: executing eval on compiled input string: \"' + instr + \
+  '\"!', file=sys.stderr)
 "
 

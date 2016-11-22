@@ -2,19 +2,20 @@
 # -*- encoding: utf-8 -*-
 """Transpose standard input, for use with Vim
 
-LICENSE
-
+License
+-------
 See below __license__
 
-USAGE
-
-`$ echo "1 2 3\n1 2 3" | transpose`
-`:'<,'>!transpose`
-
+Usage
+-----
+  - $ echo "1 2 3\n1 2 3" | transpose
+  - :'<,'>!transpose
 """
+from __future__ import print_function
+
 __creator__ = "Matt Busby"
 __email__ = "@MrMattBusby"
-__date__ = "2016"
+__date__ = "01/2016"
 
 __version__ = "See GitHub"
 __project__ = "https://github.com/MrMattBusby/"
@@ -22,7 +23,7 @@ __project__ = "https://github.com/MrMattBusby/"
 __author__ = "{0} {1}".format(__creator__, __email__)
 __copyright__ = "Copyright (c) {year}, {owner}. ".format(
                         owner = __author__,
-                        year = "2012") + \
+                        year = "2016") + \
                    "All rights reserved."
 __licence__ = """\
         BSD 3-Clause License
@@ -62,7 +63,12 @@ __licence__ = """\
 import sys
 
 if __name__ == '__main__':
+  for instr in sys.argv[1:]:
+      if instr in ('-h', '--help'):
+          print(__doc__, file=sys.stderr)
+          sys.exit(0)
   outs = ''
   for each in zip(*(line.strip().split() for line in sys.stdin.readlines() if line.strip())):
     outs += ' '.join(each) + '\n'
   sys.stdout.write(outs)
+

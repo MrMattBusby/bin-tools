@@ -37,8 +37,8 @@ CMDNAME="$0"
 USAGE="${CMDNAME} WEBSITE"
 HELP="${PURPOSE}\nUsage: \`${USAGE}\`"
 
-if [[ "$1" == '-h' ]] ; then
-  echo -e "${HELP}"
+if [ "$1" == '-h' ] ; then
+  >&2 echo -e "${HELP}"
 	exit 0
 fi
 

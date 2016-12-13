@@ -155,6 +155,7 @@ if [ ! -v F_NASTY_RE ] ; then
   F_NASTY_RE='(\<crap|\<retard\>|\<retarded\>|\>stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
 fi
 
+# Options (getopts would've been better)
 ICASE='-i'
 COLR='always'
 PRINTCMD=false

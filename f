@@ -71,6 +71,8 @@ Search for PATTERN(s) with COMMAND method below.
     -P     (P)rint the command that would run
     -n      Search for (n)otes within files, used with 1-PATTERN i* cmds,
               no PATTERNs are necessary
+    -w      Search for (w)arnings/errors/etc, used with 1-PATTERN i* cmds,
+              no PATTERNs are necessary
     -N      Search for (N)asty words within files, used with 1-PATTERN i* cmds,
               no PATTERNs are necessary
   
@@ -149,10 +151,13 @@ if [ ! -v F_AFILE_RE ] ; then
   F_AFILE_RE='.*/(makefile|.*\.(nmk|gnatmake|cfg|tab|gpr|ali|adb|ads))$'
 fi
 if [ ! -v F_NOTES_RE ] ; then
-  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<recheck\>|\<omg|\<seriously\>|t work|why [wd]|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
+  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<broke|\<breaks|\<recheck\>|\<omg|\<seriously\>|t work|why [wd]|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
+fi
+if [ ! -v F_WARNS_RE ] ; then
+  F_WARNS_RE='(\<warns|\<warning|\<errs|\<error|\<erroneous|\<fails|\<failure|\<cautio)'
 fi
 if [ ! -v F_NASTY_RE ] ; then
-  F_NASTY_RE='(\<crap|\<retard\>|\<retarded\>|\>stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
+  F_NASTY_RE='(\<crap|\<retard\>|\<retarded\>|\<stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
 fi
 
 # Options (getopts would've been better)
@@ -172,6 +177,8 @@ for each in ${@:2} ; do
         ICASE=''
       elif [ "$ch" == 'n' ] ; then
         SEARCH=($F_NOTES_RE)
+      elif [ "$ch" == 'w' ] ; then
+        SEARCH=($F_WARNS_RE)
       elif [ "$ch" == 'N' ] ; then
         SEARCH=($F_NASTY_RE)
       else

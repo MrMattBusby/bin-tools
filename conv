@@ -142,6 +142,9 @@ if __name__ == '__main__':
         if instr in ('-h', '--help'):
             print(__doc__, file=sys.stderr)
             sys.exit(0)
+        elif instr == '-':
+            for each in sys.stdin.readlines():
+                conv(each.rstrip())
         else:
             conv(instr)
 

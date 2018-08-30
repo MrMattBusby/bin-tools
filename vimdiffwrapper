@@ -1,0 +1,2 @@
+#!/bin/bash
+$(which -a vimdiff) ${6} ${7}

@@ -138,25 +138,25 @@ elif [ "$#" -le 1 ] ; then
 fi
 
 # Parse options (or [ -n ..  for older bash)
-if [ ! -v F_IGNORE_RE ] ; then
+if [ -n F_IGNORE_RE ] ; then
   F_IGNORE_RE='(\/.*\.(svn-base|page)|\/cscope.out|\/tags)$'
 fi
-if [ ! -v F_CFILE_RE ] ; then
+if [ -n F_CFILE_RE ] ; then
   F_CFILE_RE='.*/(makefile|.*\.(nmk|mk|cfg|tab|ic|cc|[ch](pp|xx)?))$'
 fi
-if [ ! -v F_PFILE_RE ] ; then
+if [ -n F_PFILE_RE ] ; then
   F_PFILE_RE='.*/(makefile|.*\.py)$'
 fi
-if [ ! -v F_AFILE_RE ] ; then
+if [ -n F_AFILE_RE ] ; then
   F_AFILE_RE='.*/(makefile|.*\.(nmk|gnatmake|cfg|tab|gpr|ali|adb|ads))$'
 fi
-if [ ! -v F_NOTES_RE ] ; then
+if [ -n F_NOTES_RE ] ; then
   F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<broke|\<breaks|\<recheck\>|\<omg|\<seriously\>|t work|why [wd]|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
 fi
-if [ ! -v F_WARNS_RE ] ; then
+if [ -n F_WARNS_RE ] ; then
   F_WARNS_RE='(\<warns|\<warning|\<errs|\<error|\<erroneous|\<fails|\<failure|\<cautio)'
 fi
-if [ ! -v F_NASTY_RE ] ; then
+if [ -n F_NASTY_RE ] ; then
   F_NASTY_RE='(\<crap|\<retard\>|\<retarded\>|\<stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
 fi
 

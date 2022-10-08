@@ -1,6 +1,6 @@
 # bin-tools
 
-Bash tools & scripts helpful for your Linux environment.
+Bash tools & scripts helpful for your Linux environment. Add to your PATH.
 
 # Content Highlights
 

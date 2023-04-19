@@ -48,7 +48,7 @@ __project__ = "https://github.com/MrMattBusby/bin-tools"
 __author__ = "{0} {1}".format(__creator__, __email__)
 __copyright__ = "Copyright (c) {year} {owner}".format(
                         owner = __author__,
-                        year = "2012") + \
+                        year = __date__) + \
                    "All rights reserved."
 __licence__ = """The MIT License
 {copyright}

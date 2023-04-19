@@ -1,7 +1,7 @@
 #!/bin/bash
-PURPOSE="Print information on user/pc/etc."
-# 
-#   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
+PURPOSE="It's (me)! Like whoami but much better; prints information on user/pc/etc."
+
+#   Copyright (c) 2014, Matt Busby @MrMattBusby.
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,10 @@ PURPOSE="Print information on user/pc/etc."
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #   POSSIBILITY OF SUCH DAMAGE.
+#
+# TODO:
+#  - Use mpstat?
+
 
 CMDNAME="$0"
 USAGE="${CMDNAME}"
@@ -53,39 +57,64 @@ elif [ $# -ne 0 ] ; then
 	exit 2
 fi
 
+IAM=$(if [[ "${USER}" -eq "" ]] ; then whoami ; else echo "${USER}" ; fi)
 TTYINFO=$(tty|sed 's|/dev/||')
-WHOINFO=$(who|grep $USER|grep pts|wc -l)
-HOSTINFO1=$(uptime|grep -o "up.*users" | sed 's|  | |g')
-HOSTINFO2=$(who -q|head -1|sed 's| |\n|g'|sort -u|xargs)
+
+if command -v uptime &> /dev/null ; then
+  HOSTINFO1=$(uptime|grep -o "up.*users" | sed 's|  | |g')
+else
+  HOSTINFO1='?'
+fi
+
+if command -v who &> /dev/null && [[ $(who) -ne "" ]] ; then
+  WHOINFO=$(who|grep $USER|grep pts|wc -l)
+  HOSTINFO2=$(who -q|head -1|sed 's| |\n|g'|sort -u|xargs)
+else
+  WHOINFO='?'
+  HOSTINFO2='?'
+fi
+
 PC_INFO=$(cat /proc/cpuinfo | grep -i "model name" | head -1 | sed 's/.*: //' | xargs)
 PC_NUM=$(cat /proc/cpuinfo | grep -i "processor" | wc -l)
-#PC_STAT_C="$(($(mpstat | grep %idle | sed 's/%idle.*//' | wc -c)-1))"
 AVG=($(cat /proc/loadavg))
-#LOAD_RAW=($(mpstat | grep %idle -A1 | tail -1 | sed "s/.\{${PC_STAT_C}\}//" | xargs))
-#LOAD=$(echo ${LOAD_RAW[0]} | awk '{print 100-$1}')
-MEM=($(\free -tm | grep Mem | awk '{print $2,$3}'))
-CACHE=$(\free -tm | grep "\-/+" | awk '{print $3}')
-SWP=($(\free -tm | grep Swap | awk '{print $2,$3}'))
-IP=$(/sbin/ifconfig|egrep -o "(inet addr:|inet )[0-9\.]*" | sed "s/inet addr://" | sed "s/inet //" | xargs | sed 's/ /, /g')
-OS=$(cat /etc/redhat-release 2>/dev/null || cat /etc/issue 2>/dev/null | head -c -1 | sed 's/\\.*//' | sed 's/^\s*//' | sed 's/\s*$//')
+if command -v free &> /dev/null ; then
+  MEM=($(\free -tm | grep Mem | awk '{print $2,$3}'))
+  CACHE=$(\free -tm | grep "\-/+" | awk '{print $3}')
+  SWP=($(\free -tm | grep Swap | awk '{print $2,$3}'))
+else
+  MEM=('?','?')
+  CACHE='?'
+  SWP=('?','?')
+fi
+
+if command -v ipconfig &> /dev/null ; then
+  IP=$(ipconfig|egrep -o "IPv4.*[0-9\.]*" | sed "s/.*:\s//g" | xargs | sed 's/ /, /g')
+else
+  IP=$(/sbin/ifconfig|egrep -o "(inet addr:|inet )[0-9\.]*" | sed "s/inet addr://" | sed "s/inet //" | xargs | sed 's/ /, /g')
+fi
+OS=$(cat /etc/redhat-release 2>/dev/null || cat /etc/issue 2>/dev/null || uname -s | head -c -1 | sed 's/\\.*//' | sed 's/^\s*//' | sed 's/\s*$//')
 UNAME="$(uname -o) $(uname -r)"
 VGREP=$(grep --version|head -1|\egrep -o "[0-9]+(\.[0-9]+)+")
 #VGNU=$(gnuplot --version|sed 's| patch.*||' | tr ' ' ':')
-VGCC=$(gcc --version|head -1|egrep -o '\(GCC\) .\..\..'|sed 's|(GCC) ||')
+
+if command -v gcc &> /dev/null ; then
+  VGCC=$(gcc --version|head -1|egrep -o '\(GCC\) .\..\..'|sed 's|(GCC) ||')
+else
+  VGCC='?'
+fi
+
 VVIM=$(vim --version|head -1|egrep -o '.\..')
 VSVN=$(svn --version 2>/dev/null|head -1|sed 's|, version||'|sed 's| (.*||' | tr ' ' ':')
 VPY=$(echo $(/bin/env python -V 2>&1)|egrep -o "[pP]ython [0-9\.]*" | tr ' ' ':')
 DATE=$(date | xargs)
 
-echo -e "${BWHITE}User  ${BBLACK}: ${WHITE}$USER:$EUID ($HOME)"
-echo -e "${BWHITE}Shell ${BBLACK}: ${WHITE}$SHELL $BASHPID ($TERM: $TTYINFO of $WHOINFO)"
+echo -e "${BWHITE}User  ${BBLACK}: ${WHITE}$IAM:$EUID ($HOME)"
+echo -e "${BWHITE}Shell ${BBLACK}: ${WHITE}$SHELL $BASHPID ($TERM/$MSYSTEM: $TTYINFO of $WHOINFO)"
 echo -e "${BWHITE}Host  ${BBLACK}: ${WHITE}${HOSTNAME} ${DISPLAY} ($HOSTINFO1: $HOSTINFO2)"
 echo -e "${BWHITE}PC    ${BBLACK}: ${WHITE}$PC_INFO x$PC_NUM"
-#echo -e "${BWHITE}Loads ${BBLACK}: ${WHITE}${LOAD}% ${AVG[@]::4} Mem:${MEM[1]}(${CACHE})/${MEM[0]}Mb Swap:${SWP[1]}/${SWP[0]}Mb"
 echo -e "${BWHITE}Loads ${BBLACK}: ${WHITE}${AVG[@]::4} Mem:${MEM[1]}(${CACHE})/${MEM[0]}Mb Swap:${SWP[1]}/${SWP[0]}Mb"
 echo -e "${BWHITE}IPs   ${BBLACK}: ${WHITE}${IP}"
 echo -e "${BWHITE}OS    ${BBLACK}: ${WHITE}${OS}: $UNAME"
-#echo -e "${BWHITE}Vers  ${BBLACK}: ${WHITE}grep:$VGREP $VGNU gcc:$VGCC VIM:$VVIM $VPY"
 echo -e "${BWHITE}Vers  ${BBLACK}: ${WHITE}grep:$VGREP gcc:$VGCC VIM:$VVIM $VPY"
 echo -e "${BWHITE}Date  ${BBLACK}: ${WHITE}${DATE}${NC}"
 

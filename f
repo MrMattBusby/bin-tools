@@ -1,7 +1,7 @@
 #!/bin/bash
-PURPOSE="Find files or search within them."
+PURPOSE="(f)inder. Find files or search within them."
 # 
-#   Copyright (c) 2014-2016, Matt Busby @MrMattBusby.
+#   Copyright (c) 2014, Matt Busby @MrMattBusby.
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -182,7 +182,9 @@ for each in "${@:2}" ; do
       elif [ "${ch}" == 'N' ] ; then
         SEARCH+=("${F_NASTY_RE}")
       else
-        ARGS+=("${ch}")
+        if [[ "${ch}" -ne "" ]] ; then
+          ARGS+=("${ch}")
+	fi
       fi
     done <<< "${each:1}"
   else

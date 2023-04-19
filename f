@@ -151,13 +151,13 @@ if [ -n F_AFILE_RE ] ; then
   F_AFILE_RE='.*/(makefile|.*\.(nmk|gnatmake|cfg|tab|gpr|ali|adb|ads))$'
 fi
 if [ -n F_NOTES_RE ] ; then
-  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<broke|\<breaks|\<recheck\>|\<omg|\<seriously\>|t work|why [wd]|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
+  F_NOTES_RE='(\<todo|\<fixme|\<removeme|\<xxx|\?\?\?|\!\!\!|\<unknown\>|\<maybe\>|\<future\>|\<hack|\<bug\>|\<review\>|\<kludg|\<klug|\<cludg|\<broke|\<breaks|\<recheck\>|\<omg|\<seriously\>|t\swork|why\s[wd]|\<ever\>|\<every\>|\<always\>|\<nothing\>|\<never\>)' #|\<warning\>)'
 fi
 if [ -n F_WARNS_RE ] ; then
   F_WARNS_RE='(\<warns|\<warning|\<errs|\<error|\<erroneous|\<fails|\<failure|\<cautio)'
 fi
 if [ -n F_NASTY_RE ] ; then
-  F_NASTY_RE='(\<crap|\<retard\>|\<retarded\>|\<stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss off\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
+  F_NASTY_RE='(\<crap|\<retard\>|\<retarded\>|\<stupid|\<stoopid|\<wtf\>|\<wth\>|\<hell\>|\<idiot|\<dick\>|\<d\*ck\>|\<penis\>|\<cock\>|\<ass\>|\<asshole\>|\<assh\*le\>|\<fag\>|\<faggot\>|\<butthole\>|\<douche\>|\<slut\>|fuck|f\*ck|\<piss\soff\>|\<bitch|\<cunt\>|\<boob|\<tits|\<puss|\<vag\>|\<shit\>|\<sh\*t\>|\<shitty|\<sh\*tty)'
 fi
 
 # Options (getopts would've been better)
@@ -166,27 +166,27 @@ COLR='always'
 PRINTCMD=false
 ARGS=()
 SEARCH=()
-for each in ${@:2} ; do 
+for each in "${@:2}" ; do 
   if [ "${each::1}" == '-' ] ; then
     while read -r -n1 ch ; do 
-      if [ "$ch" == 'p' ] ; then
+      if [ "${ch}" == 'p' ] ; then
         COLR='never'
-      elif [ "$ch" == 'P' ] ; then
+      elif [ "${ch}" == 'P' ] ; then
         PRINTCMD=true
-      elif [ "$ch" == 'I' ] ; then
+      elif [ "${ch}" == 'I' ] ; then
         ICASE=''
-      elif [ "$ch" == 'n' ] ; then
-        SEARCH=($F_NOTES_RE)
-      elif [ "$ch" == 'w' ] ; then
-        SEARCH=($F_WARNS_RE)
-      elif [ "$ch" == 'N' ] ; then
-        SEARCH=($F_NASTY_RE)
+      elif [ "${ch}" == 'n' ] ; then
+        SEARCH+=("${F_NOTES_RE}")
+      elif [ "${ch}" == 'w' ] ; then
+        SEARCH+=("${F_WARNS_RE}")
+      elif [ "${ch}" == 'N' ] ; then
+        SEARCH+=("${F_NASTY_RE}")
       else
-        ARGS+=($ch)
+        ARGS+=("${ch}")
       fi
     done <<< "${each:1}"
   else
-    SEARCH+=($each)
+    SEARCH+=("${each}")
   fi
 done
 

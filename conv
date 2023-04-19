@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
+# See dunder variables for LICENSE and COPYRIGHT.
 """Show all common number bases for an input and/or its en/decoding.
 
-License
+LICENSE
 -------
 See below __license__
 
-Usage
+USAGE
 -----
   - $conv 100
   - $conv 0x100
@@ -15,7 +16,7 @@ Usage
   - $conv 'FooBar'
   - $conv '\u2660'
 
-Warning
+WARNING
 -------
 Your terminal must support UTF-8 to use this script
 
@@ -24,46 +25,16 @@ from __future__ import print_function
 
 __creator__ = "Matt Busby"
 __email__ = "@MrMattBusby"
-__date__ = "01/2014"  # Created originally as 'eq'
+__date__ = "2014"  # Created originally as 'eq' 01/2014
 __author__ = "{0} {1}".format(__creator__, __email__)
-__copyright__ = "Copyright (c) {year}, {owner}. ".format(
+__copyright__ = "Copyright (c) {year} {owner}".format(
                         owner = __author__,
-                        year = "2014-2016") + \
+                        year = __date__) + \
                    "All rights reserved."
-__licence__ = """\
-        BSD 3-Clause License
-
-        {copyright}
-
-        Redistribution and use in source and binary forms, with or without
-        modification, are permitted provided that the following conditions
-        are met:
-
-        1. Redistributions of source code must retain the above copyright
-           notice, this list of conditions and the following disclaimer.
-
-        2. Redistributions in binary form must reproduce the above copyright
-           notice, this list of conditions and the following disclaimer in
-           the documentation and/or other materials provided with the
-           distribution.
-
-        3. Neither the name of the copyright holder nor the names of its
-           contributors may be used to endorse or promote products derived
-           from this software without specific prior written permission.
-
-        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-        FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-        COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-        INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-        BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-        LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-        LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
-        WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-        POSSIBILITY OF SUCH DAMAGE.
-        """.format(copyright=__copyright__)
+__licence__ = """The MIT License
+{copyright}
+See: https://github.com/MrMattBusby/bin-tools/blob/master/LICENSE
+""".format(copyright=__copyright__)
 __version__ = "See git history" # <-- All future
 #__version__ = "2.2" # negatives
 #__version__ = "2.1" # floats

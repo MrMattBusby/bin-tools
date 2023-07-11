@@ -2,4 +2,4 @@
 # Copyright (c) 2023 Matt Busby @MrMattBusby
 # MIT License (https://github.com/MrMattBusby/bin-tools/blob/master/LICENSE)
 
-tree $@ 2> /dev/null || find . $@ -print | sed -e 's;[^/]*/;|__;g;s;__|; |;g'
+/usr/bin/tree $@ 2> /dev/null || find . $@ -print | sed -e 's;[^/]*/;|__;g;s;__|; |;g'

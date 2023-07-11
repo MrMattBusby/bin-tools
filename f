@@ -112,7 +112,7 @@ if [ -n F_IGNORE_RE ] ; then
   F_IGNORE_RE='(\/.*\.(svn-base|page)|\/cscope.out|\/tags)$'
 fi
 if [ -n F_CFILE_RE ] ; then
-  F_CFILE_RE='.*/(makefile|.*\.(nmk|mk|cfg|tab|ic|cc|[ch](pp|xx)?))$'
+  F_CFILE_RE='.*/(makefile|.*\.(nmk|mk|cfg|tab|ic|cc|c|h|cpp|cxx|hpp|hxx|cs))$'
 fi
 if [ -n F_PFILE_RE ] ; then
   F_PFILE_RE='.*/(makefile|.*\.py)$'

@@ -5,9 +5,8 @@ Bash tools & scripts helpful for your Linux environment. Add to your PATH.
 # Content Highlights
 
 ## 1. (f)inder [shell] -- *A quick finder of ALL things, made easy*
-  - `$ f ip '(todo|fixme)'` Find either tag inside a 'python' filetype below '.' (disregarding case by default)
-  - `$ f d -c bin$` Count the number of dirs that end in 'bin'
-  - `$ f cf -Ip run` Find a 'C' filetype containing 'run' without highlighting and exact case
+
+> MOVED to <https://github.com/MrMattBusby/finder>!
   
 ## 2. (me) [shell] -- *Print information on user/pc/etc*
   - `$ me` Show information about yourself
